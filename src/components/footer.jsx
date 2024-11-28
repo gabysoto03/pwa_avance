@@ -1,10 +1,46 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SlSocialInstagram } from "react-icons/sl";
 import { SlSocialFacebook } from "react-icons/sl";
 
 function Footer() {
+
+    const [isReadyForInstall, setIsReadyForInstall] = React.useState(false);
+
+    useEffect(() => {
+    window.addEventListener("beforeinstallprompt", (event) => {
+        // Prevent the mini-infobar from appearing on mobile.
+        event.preventDefault();
+        console.log("👍", "beforeinstallprompt", event);
+        // Stash the event so it can be triggered later.
+        window.deferredPrompt = event;
+        // Remove the 'hidden' class from the install button container.
+        setIsReadyForInstall(true);
+    });
+    }, []);
+
+    async function downloadApp() {
+        console.log("👍", "butInstall-clicked");
+        const promptEvent = window.deferredPrompt;
+        if (!promptEvent) {
+          // The deferred prompt isn't available.
+          console.log("oops, no prompt event guardado en window");
+          return;
+        }
+        // Show the install prompt.
+        promptEvent.prompt();
+        // Log the result
+        const result = await promptEvent.userChoice;
+        console.log("👍", "userChoice", result);
+        // Reset the deferred prompt variable, since
+        // prompt() can only be called once.
+        window.deferredPrompt = null;
+        // Hide the install button.
+        setIsReadyForInstall(false);
+      }
+
+
     return (
         <footer className="w-full h-44 border border-gray-500 flex bg-[#faeff90] py-4">
             
@@ -13,6 +49,7 @@ function Footer() {
                 <div className="flex mb-2">
                     <FaPhoneAlt className="text-[#ef89e5] mr-2"/>
                     <p className="text-[14px] text-[#252525] md:text-sm sm:text-xs">448 112 88 89</p>
+                     {isReadyForInstall && <button onClick={downloadApp}>Descargar</button> } 
                 </div>
                 <div className="flex">
                     <MdEmail className="text-[#ef89e5] mr-2 mt-1"/>

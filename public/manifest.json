@@ -1,25 +1,22 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+    "background_color" : "#ffffff",
+    "categories": ["fashion", "lifestyle"],
+    "description" : "Prueba de aplicación para zapatos",
+    "dir": "ltr",
+    "display_override" : ["standalone", "fullscreen"],
+    "display" : "standalone",
+    "icons" : [{
+        "src" : "src/assets/icon.svg",
+        "sizes": "228x120",
+        "type" : "image/png"
+    }],
+    "id" : "/v1",
+    "lang" : "es-Mx",
+    "name" : "PWA - Shoe Store",
+    "orientation" : "any",
+    "preferer_related_aplication" : false,
+    "scope" : "/",
+    "shortname" : "pwa_shoes",
+    "start_url" : "/",
+    "theme_color" : "pink"
 }
