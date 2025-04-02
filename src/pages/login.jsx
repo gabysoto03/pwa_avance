@@ -1,46 +1,148 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/icons/logo.svg";
 
-function Login() {
-
+const Login = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    
+    
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/home");
+        } else {
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function () {
+                window.history.pushState(null, "", window.location.href);
+            };
+        }
+    }, [navigate]);
 
-    const handleLoginClick = () => {
-        navigate('/home');
+
+    // Función para loguearse 
+    const handleLogin = async () => {
+        let hasError = false;
+        setError("");
+        setEmailError(false);
+        setPasswordError(false);
+
+        const emailRule = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRule.test(email)) {
+            setError("El correo es inválido");
+            setEmailError(true);
+            hasError = true;
+        }
+
+        if (!password || !email) {
+            setError("Favor de llenar todos los campos");
+            setPasswordError(true);
+            hasError = true;
+        }
+
+        if (hasError) return;
+
+        setIsLoading(true); 
+
+        try {
+            const response = await fetch("http://localhost:3000/usuario/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json",},
+                
+                body: JSON.stringify({
+                    correo: email,
+                    contraseña: password,
+                    tipo: "Vendedor",
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.error || "Error al iniciar sesión");
+                setEmailError(true);
+                setPasswordError(true);
+                return;
+            }
+
+            localStorage.setItem("token", data.token);
+            navigate("/home");
+
+        } catch (error) {
+            setError("Error de conexión con el servidor");
+        } finally {
+            setIsLoading(false); 
+        }
     };
 
+    
+
     return (
-        <div className="min-h-screen w-full flex items-center justify-center">
-            <div className=" w-[50%] flex flex-col items-center justify-center p-6 border rounded-3xl border-gray-400">
-                <p className="font-semibold text-[36px] text-2xl md:text-3xl lg:text-4xl mb-8">Iniciar sesión</p>
+        <div className="h-screen w-screen flex flex-col items-center justify-center relative">
+            
+            {isLoading && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-xl flex flex-col items-center shadow-lg">
+                        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p className="mt-3 text-gray-700 font-semibold">Cargando...</p>
+                    </div>
+                </div>
+            )}
 
-                <form onSubmit={handleLoginClick} className="w-full flex flex-col items-center justify-center">
+            <img src={Logo} alt="Logo" />
+
+            <div className="w-[45%] h-[55%] mt-10 rounded-3xl border-[4px] border-fondo_tarjetas shadow-lg py-2">
+                <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
+                    <p className="text-[20px] text-text font-bold mb-2">Usuario</p>
                     <input
-                        className="w-[90%] h-[40px] border rounded-lg border-gray-500 p-4 mb-5 md:text-sm sm:text-xs"
+                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text ${emailError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
                         type="text"
-                        placeholder="Escribe tu correo eléctronico"
+                        placeholder="example@gmail.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onFocus={() => {
+                            setEmailError(false);
+                            setError("");
+                        }}
                     />
-                    <input
-                        className="w-[90%] h-[40px] border rounded-lg border-gray-500 p-4 mb-5 md:text-sm sm:text-xs"
-                        type="password"
-                        placeholder="Escribe tu contraseña"
-                    />
-                    <a className="text-blue-500 text-[12px] self-start mb-8" href="/resetPassword">
-                        ¿Olvidaste tu contraseña?
-                    </a>
+                </div>
 
-                    <button  className="bg-[#ef89e5] w-[60px] md:w-60 sm:w-72 h-[40px] rounded-xl text-white font-semibold mb-4 text-md md:text-sm sm:text-xs">
-                        Iniciar sesión 
+                <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
+                    <p className="text-[20px] text-text font-bold mb-2">Contraseña</p>
+                    <input
+                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text ${passwordError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        onFocus={() => {
+                            setPasswordError(false);
+                            setError("");
+                        }}
+                    />
+                </div>
+
+                <div className="w-full h-[36%] py-2 flex flex-col items-center justify-center">
+                    <button
+                        className="bg-botones w-[30%] h-[35%] rounded-3xl text-white font-bold text-[16px] mt-10"
+                        onClick={handleLogin}
+                        disabled={isLoading}>
+                        {isLoading ? "Ingresando..." : "Ingresar"}
                     </button>
 
-
-                    <a className="text-blue-500 text-[14px] text-md md:text-sm sm:text-xs" href="/register">
-                        Crear una cuenta
-                    </a>
-                </form>
+                    <div className="h-[20%] mt-4">
+                        {error && (
+                            <p className="mt-2 text-[12px] text-botones font-semibold">{error}</p>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
-}
+};
 
 export default Login;

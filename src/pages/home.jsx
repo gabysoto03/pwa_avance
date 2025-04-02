@@ -1,66 +1,87 @@
-import React, {useState, useRef, useEffect} from "react";
-import IconWomen from "../assets/icon_woman.svg";
-import Women from "../assets/women.svg";
-import Men from "../assets/men.svg";
-import { AiFillMessage } from "react-icons/ai";
-import MenuChat from "../components/chatMenu";
+import React, { useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import CotizacionIcon from "../assets/icons/cotizacionIcon.svg"
+import ReportesIcon from "../assets/icons/reportesIcon.svg"
+import ClientesIcon from "../assets/icons/clientesIcon.svg"
+import { CotizacionContext } from "../context/CotizacionContext";
 
-function Home(){
+const HomePage = () => {
     
-    const [isOpen, setIsOpen] = useState(false);
-    const menuRef = useRef(null);
+    const navigate = useNavigate();
+    const {
+        productosContext,
+        setProductosContext,
+        clientesContext,
+        setClientesContext,
+        opcionEnvioContext,
+        setOpcionEnvioContext,
+        semanasEnvioContext,
+        setSemanasEnvioContext,
+        condicionesContext,
+        setCondicionesContext,
+        consideracionContext, 
+        setConsideracionesContext,
+        consideracionDefectoContext, 
+        setConsideracionesDefectoContext
+    } = useContext(CotizacionContext);
 
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                toggleClose();
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuRef]);
+    const token = localStorage.getItem("token");
+    console.log("Token: ", token)
+
+    
+    // Limpiamos el context para que no tenga datos de otras cotizaciones. 
+    useEffect (() => {
+        setProductosContext([]);
+        setClientesContext([]);
+        setOpcionEnvioContext(clientesContext.Direccion || "");
+        setSemanasEnvioContext(1);
+        setCondicionesContext(clientesContext.CondicionesPago || "");
+        setConsideracionesContext([]);
+        setConsideracionesDefectoContext([]);
+
+    }, [])
 
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
-
-    const toggleClose = () =>{
-        setIsOpen(false);
-    }
-
-    return(
-        <div className="min-h-screen w-full p-6">
-
-            <div className="flex flex-col items-center justify-center mt-10 mb-5">
-                <p className="text-[48px] font-semibold mb-5">¡Hola, usuario!</p>
-                <p className="text-[16px] mb-5">Selecciona el género para visualizar los productos. </p>
+    return (
+        <div className="w-screen h-screen flex flex-col items-center dark:bg-dark-body ">
+            <div className="w-full h-[25%] flex items-center justify-center">
+                <p className="text-[60px] text-text font-bold">¡Bienvenido!</p>
             </div>
 
-            <div className="w-full flex items-center justify-center mb-10">
-                <div className="w-[25%] h-80 rounded-3xl border-[#ef89e5] border-[2px] flex flex-col items-center justify-center mr-12" onClick={() => window.location.href = "/women_page"}> 
-                    <p className="font-semibold text-3xl mb-4">Mujer</p>
-                    <img src={Women} alt="Mujer" />
-                </div>
+            <div className="w-full h-[70%] flex items-center px-44">
+                
+                <section className="w-[30%] h-[90%] mr-24 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas shadow-lg rounded-3xl flex flex-col items-center" onClick={() => navigate("/cotizaciones")}>
+                    <p className="h-[20%] flex items-center text-[32px] text-text font-bold">Cotizaciones</p>
+                    <div className="h-[70%] w-full flex justify-center p-4">
+                        <div className="w-[53%] h-[50%] flex items-center justify-center rounded-full border-[4px] border-botones">
+                            <img src={CotizacionIcon} alt="" />
+                        </div>
+                    </div>
+                    <p className="text-[15px]">Realiza cotizaciones a tus clientes. </p>
+                </section>
 
-                <div className="w-[25%] h-80 rounded-3xl border-[#0814e4] border-[2px] flex flex-col items-center justify-center mr-12" onClick={() => window.location.href = "/men_page"}> 
-                    <p className="font-semibold text-3xl mb-4">Hombre</p>
-                    <img src={Men} alt="Hombre" />
-                </div>
-                {isOpen && <MenuChat ref={menuRef} />}
+                <section className="w-[30%] h-[90%] mr-24 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas shadow-lg rounded-3xl flex flex-col items-center" onClick={() => navigate("/reportes")}>
+                    <p className="h-[20%] flex items-center text-[32px] text-text font-bold">Reportes</p>
+                    <div className="h-[70%] w-full flex justify-center p-4">
+                        <div className="w-[53%] h-[50%] flex items-center justify-center rounded-full border-[4px] border-botones">
+                            <img src={ReportesIcon} alt="" />
+                        </div>
+                    </div>
+                    <p className="text-[15px]">Realiza reportes de fechas determinadas. </p>
+                </section>
 
+                <section className="w-[30%] h-[90%] bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas shadow-lg rounded-3xl flex flex-col items-center" onClick={() => navigate("/clientes")}>
+                    <p className="h-[20%] flex items-center text-[32px] text-text font-bold">Clientes</p>
+                    <div className="h-[70%] w-full flex justify-center p-4">
+                        <div className="w-[53%] h-[50%] flex items-center justify-center rounded-full border-[4px] border-botones">
+                            <img src={ClientesIcon} alt="" />
+                        </div>
+                    </div>
+                    <p className="text-[15px]">Registra, elimina y administra a los usuarios.</p>
+                </section>
             </div>
-
-            <div className="flex items-end justify-end" >
-                <div className="w-16 h-16 mr-4">
-                    <AiFillMessage className="w-full h-full cursor-pointer" color="#e0248c" onClick={toggleMenu}/>
-                </div>
-            </div>
-            
         </div>
-    );
+    )
 }
 
-export default Home;
+export default HomePage;

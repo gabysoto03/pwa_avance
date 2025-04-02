@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function MenuUser({ onClose }) {
     const menuRef = useRef(null);
+    const navigate = useNavigate();
 
     // Detectar clics fuera del menú
     useEffect(() => {
@@ -18,18 +19,23 @@ function MenuUser({ onClose }) {
         };
     }, [onClose]);
 
+    // Función para el cierre de sesión
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/", { replace: true }); 
+    }
+
     return (
-        <div ref={menuRef} className="absolute right-0 w-48 h-36 bg-gray-50 rounded-lg shadow-lg py-2 z-20 mt-56 mr-4">
-            <div className="w-full h-[40%] border-b border-gray-300 flex items-center justify-center">
-                <FaUserCircle size={28} className="text-[#ef89e5]" />
-                <p className="text-[16px] ml-3">Nombre Apellido</p>
-            </div>
-            <a href="/configuration" className="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-[14px]">
-                Configuración
-            </a>
-            <a href="/" className="block px-4 py-2 text-gray-800 hover:bg-gray-200 text-[14px]">
+        <div ref={menuRef} className="absolute right-0 w-64 h-32 bg-fondo_tarjetas border-header border-[4px] rounded-3xl shadow-lg py-2 z-20 mt-6 mr-10 flex-col items-center justify-center" >
+
+            <button onClick={() => navigate("/cambiarPassword")} className="h-[50%] w-full font-bold text-text text-[16px] border-b-header border-b-[4px]">
+                Cambiar contraseña
+            </button>
+
+            <button onClick={handleLogout}  className="h-[50%] w-full font-bold text-text text-[16px]">
                 Cerrar sesión
-            </a>
+            </button>
+      
         </div>
     );
 }

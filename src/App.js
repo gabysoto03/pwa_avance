@@ -1,54 +1,76 @@
 import './App.css';
+import '@fontsource/barlow';
+import '@fontsource/poppins';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Login from './pages/login';
-import React, { useState } from 'react';
-import Header from './components/header';
-import Footer from './components/footer';
-import Register from './pages/register';
-import Home from './pages/home';
-import HeaderLogged from './components/header_logged';
-import ResetPassword from './pages/resetPassword';
-import WomenPage from './pages/women_page';
-import MenPage from './pages/men_page';
-import UserConfiguration from './pages/configurationUser';
-import ShoesMen from './pages/shoesMen';
-import ShoesWomen from './pages/shoesWomen';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import CotizacionPage from './pages/CotizacionesPage';
+import EnvioPage from './pages/EnvioPage';
+import PagoPage from './pages/PagoPage';
+import CondicionesPage from './pages/CondicionesPage';
+import ClientePage from './pages/ClientesPage';
+import ReportesPage from './pages/ReportesPage';
+import Login from './pages/Login';
+import HomePage from './pages/Home';
+import CambiarPassword from './pages/CambiarPassword';
+import ProtectedRoute from './components/ProtectedRoute';
+import { CotizacionProvider } from './context/CotizacionContext';
+import { ReporteProvider } from './context/ReportsContext';
 
-function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Layout = ({ children }) => {
     const location = useLocation();
+    const isLoginRoute = location.pathname === "/";
+    const [modoOscuro, setModoOscuro] = useState(localStorage.getItem("modoOscuro") === "true");
 
-    const publicRoutes = ["/", "/register", "/resetPassword"];
+    // Cambiar la clase del body cuando se active o desactive el modo oscuro
+    useEffect(() => {
+        if (modoOscuro) {
+            document.body.classList.add('dark');  // Agregar la clase 'dark' cuando esté activado
+        } else {
+            document.body.classList.remove('dark');  // Eliminar la clase 'dark' cuando esté desactivado
+        }
+        localStorage.setItem("modoOscuro", modoOscuro); // Guardar la preferencia en localStorage
+    }, [modoOscuro]);
 
-    const showHeader = publicRoutes.includes(location.pathname) ? <Header /> : <HeaderLogged />;
+    // Función para alternar entre modo oscuro y claro
+    const toggleModoOscuro = () => {
+        setModoOscuro((prevMode) => !prevMode);
+    };
 
     return (
-        <div className="flex flex-col min-h-screen">
-            {showHeader}
+        <>
+            {!isLoginRoute && <Header toggleModoOscuro={toggleModoOscuro} />}
+            <main>{children}</main>
+            {!isLoginRoute && <Footer />}
+        </>
+    );
+};
 
-            <Routes>
-                <Route path="/" element={<Login onLogin={() => setIsLoggedIn(false)} />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/resetPassword" element={<ResetPassword />} />
-                <Route path="/home" element={<Home /> } />
-                <Route path="/women_page" element={<WomenPage />} />
-                <Route path="/men_page" element={<MenPage />} />
-                <Route path="/configuration" element={<UserConfiguration />} />
-                <Route path="/shoesMen" element={<ShoesMen />} />
-                <Route path="/shoesWomen" element={<ShoesWomen />} />
-            </Routes>
-
-            <Footer />
-        </div>
+function App() {    
+    return (
+        <CotizacionProvider>
+            <ReporteProvider>
+                <Router>
+                    <Layout>
+                        <Routes>
+                            <Route path="/" element={<Login />} />
+                            <Route element={<ProtectedRoute />}>
+                                <Route path="/home" element={<HomePage />} />
+                                <Route path="/cotizaciones" element={<CotizacionPage />} />
+                                <Route path="/cotizaciones-envio" element={<EnvioPage />} />
+                                <Route path="/cotizaciones-pago" element={<PagoPage />} />
+                                <Route path="/cotizaciones-condiciones" element={<CondicionesPage />} />
+                                <Route path="/clientes" element={<ClientePage />} />
+                                <Route path="/reportes" element={<ReportesPage />} />
+                                <Route path="/cambiarPassword" element={<CambiarPassword />} />
+                            </Route>
+                        </Routes>
+                    </Layout>
+                </Router>
+            </ReporteProvider>
+        </CotizacionProvider>
     );
 }
 
-function AppWrapper() {
-    return (
-        <Router>
-            <App />
-        </Router>
-    );
-}
-
-export default AppWrapper;
+export default App;
