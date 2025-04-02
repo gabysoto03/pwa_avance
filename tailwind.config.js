@@ -23,19 +23,18 @@ module.exports = {
   
           // Colores para el modo oscuro
           'dark-body': "#000000",
-          'dark-header': "#2D3748", // Fondo oscuro del header
-          'dark-fondo_tarjetas': "#1A202C", // Fondo oscuro de las tarjetas
-          'dark-botones': "#F56565", // Botones en modo oscuro
-          'dark-inputs': "#4A5568", // Inputs en modo oscuro
-          'dark-complemento': "#3182CE", // Complemento oscuro
-          'dark-text': "#E2E8F0", // Texto claro en modo oscuro
-          'dark-fondo_error': "#2D3748", // Fondo de error en modo oscuro
-          'dark-text_light': "#E2E8F0", // Texto claro de advertencia
-          'dark-border': "#2B6CB0" // Borde en modo oscuro
+          'dark-header': "#04182A", 
+          'dark-fondo_tarjetas': "#032839",
+          'dark-complemento': "#182B33", 
+          'dark-text': "#3A8FDE",
+          'dark-fondo_error': "#2D3748", 
+          'dark-text_light': "#E2E8F0", 
+          'dark-border': "#04182A", 
+          'dark-color_tarjetas' : "#DDF1FA",
         },
       },
     },
-    darkMode: 'class', // Esto habilita el uso de clases para modo oscuro
+    darkMode: 'class', 
     plugins: [],
   }
   

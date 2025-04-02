@@ -4,7 +4,7 @@ const Section = ({ pWidth, divWidth, text, ...props }) => {
     return (
       <section className="w-full h-[3%] flex" {...props}>
         <p
-          className={`h-full flex items-end justify-center text-text text-[14px] font-bold mt-2`}
+          className={`h-full flex items-end justify-center text-text dark:text-dark-text text-[14px] font-bold mt-2`}
           style={{ width: pWidth }}
         >
           {text}

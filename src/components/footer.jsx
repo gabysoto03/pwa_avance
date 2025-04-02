@@ -9,9 +9,9 @@ const Footer = () => {
 
 
     return (
-        <div className="w-screen h-36 border-t-[2px] border-t-header">
+        <div className="w-screen h-36 border-t-[2px] border-t-header dark:border-t-dark-header">
             
-            <div className=" flex h-[80%]">
+            <div className=" flex h-[80%] dark:bg-black dark: dark:text-white">
                 <div className="w-2/5 h-full py-6 px-4 ">
                     <section className="flex mb-4">
                         <FaPhoneAlt className="mt-1 mr-4" />
@@ -41,7 +41,7 @@ const Footer = () => {
             </div>
 
 
-            <div className="w-full h-[20%] flex items-center justify-center">
+            <div className="w-full h-[20%] flex items-center justify-center dark:bg-black dark:text-white">
                 <p className="text-text_light">© Copyright SIAUMex.</p>
             </div>
             

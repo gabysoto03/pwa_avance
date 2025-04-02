@@ -45,39 +45,39 @@ const HomePage = () => {
     return (
         <div className="w-screen h-screen flex flex-col items-center dark:bg-dark-body ">
             <div className="w-full h-[25%] flex items-center justify-center">
-                <p className="text-[60px] text-text font-bold">¡Bienvenido!</p>
+                <p className="text-[60px] text-text dark:text-dark-text font-bold">¡Bienvenido!</p>
             </div>
 
             <div className="w-full h-[70%] flex items-center px-44">
                 
                 <section className="w-[30%] h-[90%] mr-24 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas shadow-lg rounded-3xl flex flex-col items-center" onClick={() => navigate("/cotizaciones")}>
-                    <p className="h-[20%] flex items-center text-[32px] text-text font-bold">Cotizaciones</p>
+                    <p className="h-[20%] flex items-center text-[32px] text-text dark:text-dark-text font-bold">Cotizaciones</p>
                     <div className="h-[70%] w-full flex justify-center p-4">
                         <div className="w-[53%] h-[50%] flex items-center justify-center rounded-full border-[4px] border-botones">
                             <img src={CotizacionIcon} alt="" />
                         </div>
                     </div>
-                    <p className="text-[15px]">Realiza cotizaciones a tus clientes. </p>
+                    <p className="text-[15px] dark:text-white">Realiza cotizaciones a tus clientes. </p>
                 </section>
 
                 <section className="w-[30%] h-[90%] mr-24 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas shadow-lg rounded-3xl flex flex-col items-center" onClick={() => navigate("/reportes")}>
-                    <p className="h-[20%] flex items-center text-[32px] text-text font-bold">Reportes</p>
+                    <p className="h-[20%] flex items-center text-[32px] text-text dark:text-dark-text font-bold">Reportes</p>
                     <div className="h-[70%] w-full flex justify-center p-4">
                         <div className="w-[53%] h-[50%] flex items-center justify-center rounded-full border-[4px] border-botones">
                             <img src={ReportesIcon} alt="" />
                         </div>
                     </div>
-                    <p className="text-[15px]">Realiza reportes de fechas determinadas. </p>
+                    <p className="text-[15px] dark:text-white">Realiza reportes de fechas determinadas. </p>
                 </section>
 
                 <section className="w-[30%] h-[90%] bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas shadow-lg rounded-3xl flex flex-col items-center" onClick={() => navigate("/clientes")}>
-                    <p className="h-[20%] flex items-center text-[32px] text-text font-bold">Clientes</p>
+                    <p className="h-[20%] flex items-center text-[32px] text-text dark:text-dark-text font-bold">Clientes</p>
                     <div className="h-[70%] w-full flex justify-center p-4">
                         <div className="w-[53%] h-[50%] flex items-center justify-center rounded-full border-[4px] border-botones">
                             <img src={ClientesIcon} alt="" />
                         </div>
                     </div>
-                    <p className="text-[15px]">Registra, elimina y administra a los usuarios.</p>
+                    <p className="text-[15px] dark:text-white px-4">Registra, elimina y administra a los usuarios.</p>
                 </section>
             </div>
         </div>

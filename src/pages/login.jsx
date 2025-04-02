@@ -97,9 +97,9 @@ const Login = () => {
 
             <div className="w-[45%] h-[55%] mt-10 rounded-3xl border-[4px] border-fondo_tarjetas shadow-lg py-2">
                 <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
-                    <p className="text-[20px] text-text font-bold mb-2">Usuario</p>
+                    <p className="text-[20px] text-text dark:text-dark-text font-bold mb-2">Usuario</p>
                     <input
-                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text ${emailError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
+                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text dark:text-dark-text ${emailError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
                         type="text"
                         placeholder="example@gmail.com"
                         value={email}
@@ -112,9 +112,9 @@ const Login = () => {
                 </div>
 
                 <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
-                    <p className="text-[20px] text-text font-bold mb-2">Contraseña</p>
+                    <p className="text-[20px] text-text dark:text-dark-text font-bold mb-2">Contraseña</p>
                     <input
-                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text ${passwordError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
+                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text dark:text-dark-text ${passwordError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
                         type="password"
                         placeholder="Contraseña"
                         value={password}

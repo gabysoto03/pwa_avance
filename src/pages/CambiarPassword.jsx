@@ -100,13 +100,13 @@ const CambiarPassword = () => {
     return (
         <div className="h-screen w-screen flex flex-col items-center justify-center">
             
-            <p className="text-text text-[48px] font-bold">Cambiar contraseña</p>
+            <p className="text-text dark:text-dark-text text-[48px] font-bold">Cambiar contraseña</p>
         
-            <div className="w-[45%] h-[55%] mt-10 rounded-3xl border-[4px] border-header shadow-lg py-2 bg-fondo_tarjetas">
+            <div className="w-[45%] h-[55%] mt-10 rounded-3xl border-[4px] border-header shadow-lg py-2 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas">
                 <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
-                    <p className="text-[16px] text-text font-bold mb-2">Contraseña</p>
+                    <p className="text-[16px] text-text dark:text-dark-text font-bold mb-2">Contraseña</p>
                     <input
-                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text ${ passwordError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
+                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text dark:text-dark-text ${ passwordError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -119,9 +119,9 @@ const CambiarPassword = () => {
                 </div>
                 
                 <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
-                    <p className="text-[16px] text-text font-bold mb-2">Confirmar contraseña</p>
+                    <p className="text-[16px] text-text dark:text-dark-text font-bold mb-2">Confirmar contraseña</p>
                     <input
-                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text ${ confirmError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
+                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text dark:text-dark-text ${ confirmError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}

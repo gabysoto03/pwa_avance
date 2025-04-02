@@ -262,12 +262,12 @@ function CotizacionComponent () {
     return (
         <div className="w-screen flex justify-center py-20"> 
             
-            <div className="bg-fondo_tarjetas rounded-lg w-[80%] h-auto shadow-lg flex flex-col items-center py-10">
+            <div className="bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas rounded-lg w-[80%] h-auto shadow-lg flex flex-col items-center py-10">
                 
                 {/* Información inicial del cliente */}
-                <p className="text-text font-bold text-[14px]">Selecciona el cliente</p>
+                <p className="text-text dark:text-dark-text font-bold text-[14px]">Selecciona el cliente</p>
                 <div className="flex justify-center items-center mt-8 w-full h-[6vh]">
-                    <p className="text-text text-[32px] font-bold mr-5">Cliente</p>
+                    <p className="text-text dark:text-dark-text text-[32px] font-bold mr-5">Cliente</p>
                     <select 
                         id="client-select"
                         className="w-[60%] h-[80%] border rounded-3xl focus:outline-none bg-inputs custom-select px-3"
@@ -292,20 +292,20 @@ function CotizacionComponent () {
                         <div className="w-full h-[45vh] mt-2 py-10">
                             <div className="w-full h-[50%] flex justify-center">
                                 <section className="w-[50%]">
-                                    <p className="text-text text-[28px] font-bold">Contacto</p>
-                                    <input className="w-[80%] h-[25%] rounded-full bg-inputs text-text outline-none px-5" type="text" readOnly value={selectedClient.Contacto} />
+                                    <p className="text-text dark:text-dark-text text-[28px] font-bold">Contacto</p>
+                                    <input className="w-[80%] h-[25%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" readOnly value={selectedClient.Contacto} />
                                 </section>
 
                                 <section className="w-[40%]">
-                                    <p className="text-text text-[28px] font-bold">Correo</p>
-                                    <input className="w-[80%] h-[25%] rounded-full bg-inputs text-text outline-none px-5" type="text" readOnly value={selectedClient.Correo} />
+                                    <p className="text-text dark:text-dark-text text-[28px] font-bold">Correo</p>
+                                    <input className="w-[80%] h-[25%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" readOnly value={selectedClient.Correo} />
                                 </section>
                             </div>
                             
                             <div className="w-full h-[50%] flex justify-center">
                                 <section className="w-[90%]">
-                                    <p className="text-text text-[28px] font-bold">Teléfono</p>
-                                    <input className="w-[45%] h-[25%] rounded-full bg-inputs text-text outline-none px-5" type="text" readOnly value={selectedClient.Telefono} />
+                                    <p className="text-text dark:text-dark-text text-[28px] font-bold">Teléfono</p>
+                                    <input className="w-[45%] h-[25%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" readOnly value={selectedClient.Telefono} />
                                 </section>
                             </div>
                         </div>
@@ -319,7 +319,7 @@ function CotizacionComponent () {
                             </section>
 
                             <section className="w-[80%] h-[80%] flex flex-col justify-center items-end">
-                                <div className="w-[90%] h-[90%] bg-[#C0CCD4] rounded-3xl py-4 border-[4px] border-[#839197] shadow-xl flex flex-col">
+                                <div className="w-[90%] h-[90%] bg-[#C0CCD4] dark:bg-transparent rounded-3xl py-4 border-[4px] border-[#839197] shadow-xl flex flex-col">
                                     
                                     {/* Div de la tabla */}
                                     <div className="w-full  h-[90%] flex-1 overflow-y-auto p-2">
@@ -355,7 +355,7 @@ function CotizacionComponent () {
                                     </div>
 
                                     {/* Div del total */}
-                                    <div className="w-full h-[15%] flex items-center justify-center">
+                                    <div className="w-full h-[15%] flex items-center justify-center dark:text-white">
                                         <p className="w-[30%] font-bold text-[16px] px-4">Total</p>
                                         <p className="w-[70%] font-bold text-[24px] flex items-end justify-end px-4">$ {total}</p>
                                     </div>
@@ -381,45 +381,45 @@ function CotizacionComponent () {
             {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] border-[4px] border-[#089CE4] flex flex-col items-center justify-center ">
-                        <button className="w-full flex justify-end" onClick={() => {setIsModalOpen(false); setProductoEncontrado([])}}>Cerrar</button>
-                        <h2 className="text-[32px] text-text font-bold mb-4">Agregar Producto</h2>
+                    <div className="bg-complemento dark:bg-dark-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
+                        <button className="w-full flex justify-end dark:text-white" onClick={() => {setIsModalOpen(false); setProductoEncontrado([])}}>Cerrar</button>
+                        <h2 className="text-[32px] text-text dark:text-dark-text font-bold mb-4">Agregar Producto</h2>
 
                         <section className="w-[80%] h-[10vh] mb-5">
-                            <p className="text-text text-[16px] font-bold mb-1">Código del producto</p>
-                            <input defaultValue = { productoEncontrado?.[0]?.Codigo || '' } onChange={handleCodigoProdChange} className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" />
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Código del producto</p>
+                            <input defaultValue = { productoEncontrado?.[0]?.Codigo || '' } onChange={handleCodigoProdChange} className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" />
                         </section>
 
                         {(productoEncontrado?.length > 0) && (
                             <div className="w-[80%]">
                                 <section className="w-full h-[10vh] mb-5">
-                                    <p className="text-text text-[16px] font-bold mb-1">Cantidad</p>
+                                    <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Cantidad</p>
                                     <input 
                                         defaultValue={1} 
                                         onChange={handleCantidadChange} 
-                                        className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" 
+                                        className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" 
                                         type="number" 
                                         min="1" 
                                     />
                                 </section>                
 
                                 <section className="w-full h-[10vh] mb-5">
-                                    <p className="text-text text-[16px] font-bold mb-1">Producto</p>
-                                    <input defaultValue = { productoEncontrado?.[0]?.Nombre || '' } onChange={handleNombreProdChange} className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" readOnly />
+                                    <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Producto</p>
+                                    <input defaultValue = { productoEncontrado?.[0]?.Nombre || '' } onChange={handleNombreProdChange} className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" readOnly />
                                 </section>
 
 
                                 <section className="w-full h-[10vh] mb-5">
-                                    <p className="text-text text-[16px] font-bold mb-1">Categoría</p>
-                                    <input defaultValue = { productoEncontrado?.[0]?.Categoria || '' }  className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" readOnly />
+                                    <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Categoría</p>
+                                    <input defaultValue = { productoEncontrado?.[0]?.Categoria || '' }  className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" readOnly />
                                 </section>
 
 
                                 <section className="w-full h-[10vh] mb-10">
-                                    <p className="text-text text-[16px] font-bold mb-1">Precio</p>
+                                    <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Precio</p>
                                     <input  
                                         defaultValue = { productoEncontrado?.[0]?.Costo || '' } 
-                                        className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" 
+                                        className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" 
                                         type="number" 
                                         onChange={handlePrecioProdChange}
                                         readOnly
@@ -456,14 +456,14 @@ function CotizacionComponent () {
             {/* Modal */}
             {modalConfirm && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] h-[40%] border-[4px] border-[#089CE4] flex flex-col items-center justify-center ">
+                    <div className="bg-complemento  dark:bg-dark-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] h-[40%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
 
                         <section className="w-full h-[40%] flex justify-center">
                             <img src={CotizacionConfirm} alt="" />
                         </section>
 
                         <section className="w-full h-[30%] flex items-center justify-center">
-                            <p className="font-semibold text-text text-[18px]">Añade al menos un producto para continuar con tu cotización.</p>
+                            <p className="font-semibold text-text dark:text-dark-text text-[18px]">Añade al menos un producto para continuar con tu cotización.</p>
                         </section>
                         
                         <section className="w-full h-[30%] flex items-center justify-center">
@@ -484,37 +484,37 @@ function CotizacionComponent () {
             {/* Modal */}
             {modalAgregar && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-complemento px-6 py-1 rounded-3xl shadow-lg w-[50%] border-[4px] border-[#089CE4] flex flex-col items-center justify-center ">
-                        <button className="w-full flex justify-end" onClick={() => {setModalAgregar(false); setProductoEncontrado([])}}>Cerrar</button>
-                        <h2 className="text-[32px] text-text font-bold mb-2">¡Uy, no se encontro!</h2>
-                        <p className="text-text text-[10px] w-[90%] flex justify-center mb-4">Verifica el código del producto, o en su defecto registralo para agregarlo a la cotización.</p>
+                    <div className="bg-complemento dark:bg-dark-complemento px-6 py-1 rounded-3xl shadow-lg w-[50%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
+                        <button className="w-full flex justify-end dark:text-white" onClick={() => {setModalAgregar(false); setProductoEncontrado([])}}>Cerrar</button>
+                        <h2 className="text-[32px] text-text dark:text-dark-text font-bold mb-2">¡Uy, no se encontro!</h2>
+                        <p className="text-text dark:text-dark-text text-[10px] w-[90%] flex justify-center mb-4">Verifica el código del producto, o en su defecto registralo para agregarlo a la cotización.</p>
 
                         <section className="w-[80%] h-[10vh] mb-3">
-                            <p className="text-text text-[16px] font-bold mb-1">Código del producto</p>
-                            <input defaultValue = { productoEncontrado?.[0]?.Codigo || '' } onChange={(e) => setCodigoReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" />
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Código del producto</p>
+                            <input defaultValue = { productoEncontrado?.[0]?.Codigo || '' } onChange={(e) => setCodigoReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" />
                         </section>
 
                         <section className="w-[80%] h-[10vh] mb-3">
-                            <p className="text-text text-[16px] font-bold mb-1">Nombre del producto </p>
-                            <input defaultValue = { productoEncontrado?.[0]?.Nombre || '' } onChange={(e) => setNombreReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" />
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Nombre del producto </p>
+                            <input defaultValue = { productoEncontrado?.[0]?.Nombre || '' } onChange={(e) => setNombreReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" />
                         </section>
                         
                         <section className="w-[80%] h-[10vh] mb-3">
-                            <p className="text-text text-[16px] font-bold mb-1">Tiempo de entrega </p>
-                            <input defaultValue={1} onChange={(e) => setTiempoEntregaReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="number"  min="1" />
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Tiempo de entrega </p>
+                            <input defaultValue={1} onChange={(e) => setTiempoEntregaReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="number"  min="1" />
                         </section>
                         
                         <section className="w-[80%] h-[10vh] mb-3">
-                            <p className="text-text text-[16px] font-bold mb-1">Categoría</p>
-                            <input defaultValue = { productoEncontrado?.[0]?.Categoria || '' }  onChange={(e) => setCategoriaReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" />
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Categoría</p>
+                            <input defaultValue = { productoEncontrado?.[0]?.Categoria || '' }  onChange={(e) => setCategoriaReg(e.target.value)} className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" />
                         </section>
                         
 
                         <section className="w-[80%] h-[10vh] mb-3">
-                            <p className="text-text text-[16px] font-bold mb-1">Precio</p>
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Precio</p>
                             <input  
                                 defaultValue = { productoEncontrado?.[0]?.Costo || '' } 
-                                className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" 
+                                className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" 
                                 type="number" 
                                 onChange={(e) => setCostoReg(e.target.value)}
                             />
@@ -522,10 +522,10 @@ function CotizacionComponent () {
 
 
                         <section className="w-[80%] h-[10vh] mb-5">
-                            <p className="text-text text-[16px] font-bold mb-1">Imagen</p>
+                            <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Imagen</p>
                             <input  
                                 defaultValue = { productoEncontrado?.[0]?.Costo || '' } 
-                                className="w-full h-[50%] rounded-full bg-inputs text-text outline-none px-5" 
+                                className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" 
                                 type="number" 
                                 onChange={(e) => setCostoReg(e.target.value)}
                             />

@@ -23,14 +23,14 @@ const Layout = ({ children }) => {
     const isLoginRoute = location.pathname === "/";
     const [modoOscuro, setModoOscuro] = useState(localStorage.getItem("modoOscuro") === "true");
 
-    // Cambiar la clase del body cuando se active o desactive el modo oscuro
+
     useEffect(() => {
         if (modoOscuro) {
-            document.body.classList.add('dark');  // Agregar la clase 'dark' cuando esté activado
+            document.body.classList.add('dark');  
         } else {
-            document.body.classList.remove('dark');  // Eliminar la clase 'dark' cuando esté desactivado
+            document.body.classList.remove('dark');  
         }
-        localStorage.setItem("modoOscuro", modoOscuro); // Guardar la preferencia en localStorage
+        localStorage.setItem("modoOscuro", modoOscuro); 
     }, [modoOscuro]);
 
     // Función para alternar entre modo oscuro y claro

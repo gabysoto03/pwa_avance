@@ -179,8 +179,8 @@ const ReportsDetails = () => {
 
     return (
         <div className="w-full h-full flex flex-col items-center py-5">
-            <p className="font-bold text-[40px] text-text h-[5%]">{clienteContext?.Nombre || "Todos"}</p>
-            <div className="flex font-semibold text-[16px] text-text h-[3%]"> 
+            <p className="font-bold text-[40px] text-text dark:text-dark-text h-[5%]">{clienteContext?.Nombre || "Todos"}</p>
+            <div className="flex font-semibold text-[16px] text-text dark:text-dark-text h-[3%]"> 
                 <p> Del</p>
                 <p className="font-extrabold ml-2 mr-2"> {startDateContext} </p>
                 <p> al </p>
@@ -191,7 +191,7 @@ const ReportsDetails = () => {
             <div className="w-full h-[10%] flex items-center justify-center">
                 
                 <div className="w-[40%] h-[40%] flex items-center mr-[5%]">
-                    <p className="text-[24px] text-text font-semibold mr-2">Cliente</p>
+                    <p className="text-[24px] text-text dark:text-dark-text font-semibold mr-2">Cliente</p>
                     <select 
                             id="client-select"
                             className="w-full p-2 border rounded-3xl focus:outline-none bg-inputs custom-select"
@@ -208,7 +208,7 @@ const ReportsDetails = () => {
                 </div>
 
                 <div className="w-[20%] h-[40%] flex items-center mr-[5%]">
-                    <p className="text-[24px] text-text font-semibold mr-2">Inicio</p>
+                    <p className="text-[24px] text-text dark:text-dark-text font-semibold mr-2">Inicio</p>
                     <input 
                         onChange={(e) => {
                             setStartedDate(e.target.value)
@@ -223,7 +223,7 @@ const ReportsDetails = () => {
 
                 
                 <div className="w-[20%] h-[40%] flex items-center">
-                    <p className="text-[24px] text-text font-semibold mr-2">Fin</p>
+                    <p className="text-[24px] text-text dark:text-dark-text font-semibold mr-2">Fin</p>
                     <input 
                         onChange={(e) => {
                             setEndDate(e.target.value)
@@ -237,7 +237,7 @@ const ReportsDetails = () => {
 
             </div>
 
-            <button onClick={handleReset} className="h-[5%] flex items-end mb-2 text-text">Limpiar filtros</button>
+            <button onClick={handleReset} className="h-[5%] flex items-end mb-2 text-text dark:text-dark-text">Limpiar filtros</button>
 
 
             {/* TABLA */}
@@ -246,9 +246,9 @@ const ReportsDetails = () => {
                     { cotizacionesAgrupadas && cotizacionesAgrupadas.length > 0 && cotizacionesAgrupadas.map((cotizacion) => (
                         <div key={cotizacion.id} className="w-full mb-16">
                             <div className="flex w-full">
-                                <p className="w-[35%] font-semibold text-[15px] text-text">{cotizacion.id}</p>
-                                <p className="w-[35%] font-semibold text-[15px] text-text">Fecha: {cotizacion.fechaVenta}</p>
-                                <p className="w-[30%] font-semibold text-[15px] text-text">Cliente: {cotizacion.cliente}</p>
+                                <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">{cotizacion.id}</p>
+                                <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">Fecha: {cotizacion.fechaVenta}</p>
+                                <p className="w-[30%] font-semibold text-[15px] text-text dark:text-dark-text">Cliente: {cotizacion.cliente}</p>
                             </div>
 
                             <div className="w-full h-[85%] flex-1 overflow-y-auto py-2 mb-5">
@@ -291,7 +291,7 @@ const ReportsDetails = () => {
 
                     {cotizacionesAgrupadas.length == 0 && (
                         <>
-                            <p className="text-text font-bold w-full h-full flex items-center justify-center">No hay registros que coincidan con los filtros. </p>
+                            <p className="text-text dark:text-dark-text font-bold w-full h-full flex items-center justify-center">No hay registros que coincidan con los filtros. </p>
                         </>
                     )}
                 </div>

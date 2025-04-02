@@ -412,14 +412,14 @@ const UserAdd = () => {
             {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] h-[40%] border-[4px] border-[#089CE4] flex flex-col items-center justify-center ">
+                    <div className="bg-complemento   dark:bg-dark-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] h-[40%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
 
                         <section className="w-full h-[40%] flex justify-center">
                             <img src={UserConfirm} alt="" />
                         </section>
 
                         <section className="w-full h-[30%] flex items-center justify-center">
-                            <p className="font-semibold text-text text-[18px]">¿Seguro que quieres dar de alta al usuario {formData.nombre}?</p>
+                            <p className="font-semibold text-text dark:text-dark-text text-[18px]">¿Seguro que quieres dar de alta al usuario {formData.nombre}?</p>
                         </section>
                         
                         <section className="w-full h-[30%] flex items-center justify-center">

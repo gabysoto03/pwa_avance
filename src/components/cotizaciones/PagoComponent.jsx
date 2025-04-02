@@ -39,11 +39,11 @@ function PagoComponent () {
 
     return (
         <div className="w-screen flex justify-center py-20">
-            <div className="bg-fondo_tarjetas rounded-lg w-[80%] h-[65vh] shadow-lg flex flex-col items-center py-10">
+            <div className="bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas rounded-lg w-[80%] h-[65vh] shadow-lg flex flex-col items-center py-10">
                 
                 <div className="w-[80%] h-[60%] mb-[10%] flex items-center">
-                    <p className="text-text font-bold text-[28px] mr-[5%]">Condiciones</p>
-                    <input className="w-[80%] h-[20%] rounded-full bg-inputs text-text outline-none px-5" type="text" defaultValue={condicionesContext} onChange={handleCondicionesChange} />
+                    <p className="text-text dark:text-dark-text font-bold text-[28px] mr-[5%]">Condiciones</p>
+                    <input className="w-[80%] h-[20%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" defaultValue={condicionesContext} onChange={handleCondicionesChange} />
                 </div>
 
                 <div className="w-[80%] h-[20%] flex items-end">
@@ -66,14 +66,14 @@ function PagoComponent () {
             {/* Modal */}
             {modalConfirm && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] h-[40%] border-[4px] border-[#089CE4] flex flex-col items-center justify-center ">
+                    <div className="bg-complemento  dark:bg-dark-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] h-[40%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
 
                         <section className="w-full h-[40%] flex justify-center">
                             <img src={CotizacionConfirm} alt="" />
                         </section>
 
                         <section className="w-full h-[30%] flex items-center justify-center">
-                            <p className="font-semibold text-text text-[18px]">Añade al menos una condición de entrega.</p>
+                            <p className="font-semibold text-text dark:text-dark-text text-[18px]">Añade al menos una condición de entrega.</p>
                         </section>
                         
                         <section className="w-full h-[30%] flex items-center justify-center">

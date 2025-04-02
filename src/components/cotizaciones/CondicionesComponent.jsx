@@ -302,28 +302,28 @@ function CondicionesComponent () {
     
     return (
         <div className="w-screen flex justify-center py-20">
-            <div className="bg-fondo_tarjetas rounded-lg w-[80%] h-[150vh] shadow-lg flex flex-col items-center py-10">
+            <div className="bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas rounded-lg w-[80%] h-[150vh] shadow-lg flex flex-col items-center py-10">
                 
-                <p className="text-text h-[5%] font-bold text-[28px] mr-[5%]">Consideraciones</p>
-                <p className="text-text text-[10px] h-[8%] mb-[2%]">* La cotización esta sujeta a las consideraciones por defecto, si hay alguna consideración extra, agregala aquí. </p>
+                <p className="text-text dark:text-dark-text h-[5%] font-bold text-[28px] mr-[5%]">Consideraciones</p>
+                <p className="text-text dark:text-dark-text text-[10px] h-[8%] mb-[2%]">* La cotización esta sujeta a las consideraciones por defecto, si hay alguna consideración extra, agregala aquí. </p>
                 
                 <section className="h-[10%] w-[80%] flex">
-                    <p className="text-text h-[10%] font-bold text-[22px] mr-[5%]">Otro</p>
-                    <input className="w-[80%] h-[50%] rounded-full bg-inputs text-text outline-none px-5" type="text" value={nuevoCondicion} onChange={(e) => setNuevoCondicion(e.target.value)} />
+                    <p className="text-text dark:text-dark-text h-[10%] font-bold text-[22px] mr-[5%]">Otro</p>
+                    <input className="w-[80%] h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" type="text" value={nuevoCondicion} onChange={(e) => setNuevoCondicion(e.target.value)} />
                     <button className="w-[10%] h-[50%] flex items-center justify-center" onClick={agregarCondicion}>
-                        <FaCheckCircle className="w-[70%] h-[70%]" />
+                        <FaCheckCircle className="w-[70%] h-[70%] dark:text-white" />
                     </button>
                 </section>
 
-                <p className="text-text text-[12px] h-[5%] mb-[1%] flex items-end"> <button className="text-blue-500 underline" onClick={() => setModalOpen(true)}>* Revisa aquí las cotizaciones por defecto </button></p>
+                <p className="text-text dark:text-dark-text text-[12px] h-[5%] mb-[1%] flex items-end"> <button className="text-blue-500 underline" onClick={() => setModalOpen(true)}>* Revisa aquí las cotizaciones por defecto </button></p>
 
                 <div className="w-[80%] h-[80%] mb-[3%] bg-white rounded-3xl flex flex-col items-center py-4 shadow-lg overflow-x-auto overflow-y-auto">
-                    <p className="text-text h-[7%] font-bold text-[20px] mr-[5%] mb-[2%]">Consideraciones</p>
+                    <p className="text-text dark:text-dark-text h-[7%] font-bold text-[20px] mr-[5%] mb-[2%]">Consideraciones</p>
                     {condiciones.map ((condicion, index) =>(
-                         <div className="w-[95%] min-h-[9vh] flex items-center px-5 mb-[3%] bg-fondo_tarjetas">
-                            <p className="font-semibold text-text w-[93%] truncate">{condicion}</p>
+                         <div className="w-[95%] min-h-[9vh] flex items-center px-5 mb-[3%] bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas">
+                            <p className="font-semibold text-text dark:text-dark-text w-[93%] truncate">{condicion}</p>
                             <button className="w-[6%] h-[80%] rounded-full border-red-500 border-2 flex items-center justify-center" onClick={() => eliminarCondicion(index)}>
-                                <FaRegTrashCan className="w-[50%] h-[50%]" />
+                                <FaRegTrashCan className="w-[50%] h-[50%] dark:text-white" />
                             </button>
                         </div>
                     ))}
@@ -349,17 +349,17 @@ function CondicionesComponent () {
             {/* Modal */}
             {modalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-complemento px-6 py-4 rounded-3xl shadow-lg w-[90%] h-[90%] border-[4px] border-[#089CE4] flex flex-col items-center justify-center">
+                    <div className="bg-complemento  dark:bg-dark-complemento px-6 py-4 rounded-3xl shadow-lg w-[90%] h-[90%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center">
 
                         <section className="w-full h-[10%] flex items-center justify-center">
-                            <p className="text-text h-[7%] font-bold text-[20px] mr-[5%] mb-[2%]">Consideraciones por defecto.</p>
+                            <p className="text-text dark:text-dark-text h-[7%] font-bold text-[20px] mr-[5%] mb-[2%]">Consideraciones por defecto.</p>
                         </section>
 
                         <section className="w-full h-[80%] overflow-y-auto">
                             {condicionesDefecto.map((condicion, index) => (
-                                <div className="w-[95%] min-h-[8vh] flex items-center px-5 mb-[3%] bg-fondo_tarjetas rounded-lg">
+                                <div className="w-[95%] min-h-[8vh] flex items-center px-5 mb-[3%] bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas rounded-lg">
                                     <p
-                                        className="font-semibold text-text w-[95%] px-2 text-sm"
+                                        className="font-semibold text-text dark:text-dark-text w-[95%] px-2 text-sm"
                                         style={{
                                             display: "-webkit-box",
                                             WebkitLineClamp: 2,
@@ -374,7 +374,7 @@ function CondicionesComponent () {
                                         className="w-[5%] h-full rounded-full flex items-center justify-center"
                                         onClick={() => eliminarCondicionDefecto(index)}
                                     >
-                                        <FaRegTrashCan className="w-[45%] h-[45%]" />
+                                        <FaRegTrashCan className="w-[45%] h-[45%] dark:text-white" />
                                     </button>
                                 </div>
                             ))}
