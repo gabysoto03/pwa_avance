@@ -1,6 +1,7 @@
 import React, {useState, useContext, useEffect} from "react";
 import { IoCloudDownload } from "react-icons/io5";
 import { ReporteContext } from "../../context/ReportsContext";
+import DownloadDetailsReport from "../../functions/downloadDetailsExcel";
 
 const ReportsDetails = () => {
 
@@ -28,6 +29,22 @@ const ReportsDetails = () => {
     const [folio, setFolio] = useState(clienteContext?.Folio);
     const [loading, setLoading] = useState(false);
     const [cotizacionesAgrupadas, setCotizacionesAgrupadas] = useState([]);
+    const [ventasAgrupadas, setVentasAgrupadas] = useState([]);
+    const [isCotizacion, setIsCotizacion] = useState(true);
+    const [data, setData] = useState([]);
+
+
+    useEffect (() =>{
+        const data  = {
+            cotizaciones : cotizacionesAgrupadas,
+            ventas : ventasAgrupadas,
+            startDate : startedDate,
+            endDate : endDate,
+            cliente : selectedClient?.Nombre
+        }
+        setData(data);
+
+    }, [startedDate, endDate, selectedClient, informacion])
 
     
     useEffect(() => {
@@ -38,6 +55,19 @@ const ReportsDetails = () => {
                 setCotizacionesAgrupadas(cotizacionesAgrupadas);
             } else {
                 setCotizacionesAgrupadas([]); 
+            }
+        }
+    }, [informacion]);
+
+
+    useEffect(() => {
+        if (informacion) {
+            if (informacion.infoVentas && informacion.infoVentas.length > 0) {
+                const agrupadas = agruparVentas(informacion?.infoVentas);
+                const ventasAgrupadas = agrupadas ? Object.values(agrupadas) : [];
+                setVentasAgrupadas(ventasAgrupadas);
+            } else {
+                setVentasAgrupadas([]); 
             }
         }
     }, [informacion]);
@@ -237,74 +267,149 @@ const ReportsDetails = () => {
 
             </div>
 
-            <button onClick={handleReset} className="h-[5%] flex items-end mb-2 text-text dark:text-dark-text">Limpiar filtros</button>
-
-
-            {/* TABLA */}
-            <div className="w-[90%] h-[69%] bg-header rounded-3xl border-[4px] border-border px-4 py-10">
-                <div className="w-full h-full overflow-y-auto max-h-full pr-2">  
-                    { cotizacionesAgrupadas && cotizacionesAgrupadas.length > 0 && cotizacionesAgrupadas.map((cotizacion) => (
-                        <div key={cotizacion.id} className="w-full mb-16">
-                            <div className="flex w-full">
-                                <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">{cotizacion.id}</p>
-                                <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">Fecha: {cotizacion.fechaVenta}</p>
-                                <p className="w-[30%] font-semibold text-[15px] text-text dark:text-dark-text">Cliente: {cotizacion.cliente}</p>
-                            </div>
-
-                            <div className="w-full h-[85%] flex-1 overflow-y-auto py-2 mb-5">
-                                <table className="w-full border-collapse text-center">
-                                    <thead>
-                                        <tr className="bg-complemento text-white">
-                                            <th className="border-[3px] p-2 border-text w-[30%]">Producto</th>
-                                            <th className="border-[3px] p-2 border-text w-[20%]">Categoria</th>
-                                            <th className="border-[3px] p-2 border-text w-[20%]">Precio unitario</th>
-                                            <th className="border-[3px] p-2 border-text w-[15%]">Cantidad</th>
-                                            <th className="border-[3px] p-2 border-text w-[15%]">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {cotizacion.productos.map((producto, index) => (
-                                            <tr key={index} className="bg-white">
-                                                <td className="border-[3px] p-2 border-text w-[30%]">{producto.producto}</td>
-                                                <td className="border-[3px] p-2 border-text w-[20%]">{producto.categoria}</td>
-                                                <td className="border-[3px] p-2 border-text w-[20%]">$ {producto.precioUnitario}</td>
-                                                <td className="border-[3px] p-2 border-text w-[15%]"> {producto.cantidad} </td>
-                                                <td className="border-[3px] p-2 border-text w-[15%]"> { producto.precioUnitario * producto.cantidad } </td>
-                                            </tr>
-                                        ))}
-                                        
-                                        <tr className="bg-complemento text-white">
-                                            <td className="border-[3px] p-2 border-text w-[30%]" colSpan={3}>Total</td>
-                                            <td className="border-[3px] p-2 border-text w-[15%]">
-                                                {cotizacion.productos.reduce((total, producto) => total + producto.cantidad, 0)}
-                                            </td>
-                                            <td className="border-[3px] p-2 border-text w-[15%]">
-                                                $ {cotizacion.productos.reduce((total, producto) => total + (producto.precioUnitario * producto.cantidad), 0)}
-                                            </td>
-                                        </tr>
-                                    
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    )) }
-
-                    {cotizacionesAgrupadas.length == 0 && (
-                        <>
-                            <p className="text-text dark:text-dark-text font-bold w-full h-full flex items-center justify-center">No hay registros que coincidan con los filtros. </p>
-                        </>
-                    )}
-                </div>
-                
+            <div className="h-[5%] w-[70%] flex items-end">
+                <button onClick={handleReset} className="  mb-2 mr-[50%] text-text dark:text-dark-text">Limpiar filtros</button>
+                <button onClick={() => setIsCotizacion(true)} className={`mb-2 mr-[2%] text-text dark:text-dark-text ${isCotizacion ? "font-bold" : "font-ligth"}`}>Ver cotizaciones</button>
+                <p className="mb-2 mr-[2%]">/</p>
+                <button onClick={() => setIsCotizacion(false)} className={`mb-2 text-text dark:text-dark-text ${!isCotizacion ? "font-bold" : "font-ligth"}`}>Ver ventas</button>
             </div>
+            
+
+            {/* TABLA COTIZACIONES */}
+            {isCotizacion && (
+                <div className="w-[90%] h-[69%] bg-header rounded-3xl border-[4px] border-border px-4 py-10">
+                    <div className="w-full h-full overflow-y-auto max-h-full pr-2">  
+                        { cotizacionesAgrupadas && cotizacionesAgrupadas.length > 0 && cotizacionesAgrupadas.map((cotizacion) => (
+                            <div key={cotizacion.id} className="w-full mb-16">
+                                <div className="flex w-full">
+                                    <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">{cotizacion.id}</p>
+                                    <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">Fecha: {cotizacion.fechaVenta}</p>
+                                    <p className="w-[30%] font-semibold text-[15px] text-text dark:text-dark-text">Cliente: {cotizacion.cliente}</p>
+                                </div>
+                                <div className="w-full h-[85%] flex-1 overflow-y-auto py-2 mb-5">
+                                    <table className="w-full border-collapse text-center">
+                                        <thead>
+                                            <tr className="bg-complemento text-white">
+                                                <th className="border-[3px] p-2 border-text w-[30%]">Producto</th>
+                                                <th className="border-[3px] p-2 border-text w-[20%]">Categoria</th>
+                                                <th className="border-[3px] p-2 border-text w-[20%]">Precio unitario</th>
+                                                <th className="border-[3px] p-2 border-text w-[15%]">Cantidad</th>
+                                                <th className="border-[3px] p-2 border-text w-[15%]">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {cotizacion.productos.map((producto, index) => (
+                                                <tr key={index} className="bg-white">
+                                                    <td className="border-[3px] p-2 border-text w-[30%]">{producto.producto}</td>
+                                                    <td className="border-[3px] p-2 border-text w-[20%]">{producto.categoria}</td>
+                                                    <td className="border-[3px] p-2 border-text w-[20%]">$ {producto.precioUnitario}</td>
+                                                    <td className="border-[3px] p-2 border-text w-[15%]"> {producto.cantidad} </td>
+                                                    <td className="border-[3px] p-2 border-text w-[15%]"> { producto.precioUnitario * producto.cantidad } </td>
+                                                </tr>
+                                            ))}
+                                            
+                                            <tr className="bg-complemento text-white">
+                                                <td className="border-[3px] p-2 border-text w-[30%]" colSpan={3}>Total</td>
+                                                <td className="border-[3px] p-2 border-text w-[15%]">
+                                                    {cotizacion.productos.reduce((total, producto) => total + producto.cantidad, 0)}
+                                                </td>
+                                                <td className="border-[3px] p-2 border-text w-[15%]">
+                                                    $ {cotizacion.productos.reduce((total, producto) => total + (producto.precioUnitario * producto.cantidad), 0)}
+                                                </td>
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )) }
+
+                        {cotizacionesAgrupadas.length == 0 && (
+                            <>
+                                <p className="text-text dark:text-dark-text font-bold w-full h-full flex items-center justify-center">No hay registros que coincidan con los filtros. </p>
+                            </>
+                        )}
+                    </div>
+                    
+                </div>
+            )}
+
+
+            {/* TABLA VENTAS */}
+            {!isCotizacion && (
+                <div className="w-[90%] h-[69%] bg-header rounded-3xl border-[4px] border-border px-4 py-10">
+                    <div className="w-full h-full overflow-y-auto max-h-full pr-2">  
+                        { ventasAgrupadas && ventasAgrupadas.length > 0 && ventasAgrupadas.map((cotizacion) => (
+                            <div key={cotizacion.id} className="w-full mb-16">
+                                <div className="flex w-full">
+                                    <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">{cotizacion.id}</p>
+                                    <p className="w-[35%] font-semibold text-[15px] text-text dark:text-dark-text">Fecha: {cotizacion.fechaVenta}</p>
+                                    <p className="w-[30%] font-semibold text-[15px] text-text dark:text-dark-text">Cliente: {cotizacion.cliente}</p>
+                                </div>
+                                <div className="w-full h-[85%] flex-1 overflow-y-auto py-2 mb-5">
+                                    <table className="w-full border-collapse text-center">
+                                        <thead>
+                                            <tr className="bg-complemento text-white">
+                                                <th className="border-[3px] p-2 border-text w-[30%]">Producto</th>
+                                                <th className="border-[3px] p-2 border-text w-[20%]">Categoria</th>
+                                                <th className="border-[3px] p-2 border-text w-[20%]">Precio unitario</th>
+                                                <th className="border-[3px] p-2 border-text w-[15%]">Cantidad</th>
+                                                <th className="border-[3px] p-2 border-text w-[15%]">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {cotizacion.productos.map((producto, index) => (
+                                                <tr key={index} className="bg-white">
+                                                    <td className="border-[3px] p-2 border-text w-[30%]">{producto.producto}</td>
+                                                    <td className="border-[3px] p-2 border-text w-[20%]">{producto.categoria}</td>
+                                                    <td className="border-[3px] p-2 border-text w-[20%]">$ {producto.precioUnitario}</td>
+                                                    <td className="border-[3px] p-2 border-text w-[15%]"> {producto.cantidad} </td>
+                                                    <td className="border-[3px] p-2 border-text w-[15%]"> { producto.precioUnitario * producto.cantidad } </td>
+                                                </tr>
+                                            ))}
+                                            
+                                            <tr className="bg-complemento text-white">
+                                                <td className="border-[3px] p-2 border-text w-[30%]" colSpan={3}>Total</td>
+                                                <td className="border-[3px] p-2 border-text w-[15%]">
+                                                    {cotizacion.productos.reduce((total, producto) => total + producto.cantidad, 0)}
+                                                </td>
+                                                <td className="border-[3px] p-2 border-text w-[15%]">
+                                                    $ {cotizacion.productos.reduce((total, producto) => total + (producto.precioUnitario * producto.cantidad), 0)}
+                                                </td>
+                                            </tr>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )) }
+
+                        {ventasAgrupadas.length == 0 && (
+                            <>
+                                <p className="text-text dark:text-dark-text font-bold w-full h-full flex items-center justify-center">No hay registros que coincidan con los filtros. </p>
+                            </>
+                        )}
+                    </div>
+                    
+                </div>
+            )}
 
 
             {/* BOTÓN */}
-            <div className="w-full h-[8%] flex items-end justify-end p-4 px-20">
-                <button className="h-[95%] w-[12%] rounded-3xl bg-header p-2">
-                    <IoCloudDownload className="h-full w-full"/>
-                </button>
+            <div className="w-full h-[10%] flex items-end justify-end p-4 px-20">
+                <div className="h-[90%] w-[10%]">
+                    <DownloadDetailsReport  data={data} />
+                </div>
             </div>
+
+            {loading && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-xl flex flex-col items-center shadow-lg">
+                        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p className="mt-3 text-gray-700 font-semibold">Cargando información, ¡Espere!</p>
+                    </div>
+                </div>
+            )}
 
 
         </div>
@@ -334,6 +439,39 @@ const agruparCotizaciones = (infoCotizaciones) => {
             }
 
             acc[Folio].productos.push({
+                producto: ProductoNombre,
+                cantidad: CantidadProducto,
+                precioUnitario: Costo,
+                categoria: Categoria
+            });
+
+            return acc;
+        }, {});
+    } else{
+        return null;
+    }
+};
+
+
+
+// Función para agrupar ventas por id de venta
+const agruparVentas = (infoVentas) => {
+    if(infoVentas.length > 0){
+        return infoVentas.reduce((acc, item) => {
+            const { VentaID, FechaVenta, ClienteNombre, ProductoNombre, CantidadProducto, Costo, Categoria } = item;
+            const fechaObj = new Date(FechaVenta);
+            const fechaFormateada = `${fechaObj.getFullYear()}/${(fechaObj.getMonth() + 1).toString().padStart(2, '0')}/${fechaObj.getDate().toString().padStart(2, '0')}`;
+
+            if (!acc[VentaID]) {
+                acc[VentaID] = {
+                    id: VentaID,
+                    fechaVenta: fechaFormateada,
+                    cliente: ClienteNombre,
+                    productos: []
+                };
+            }
+
+            acc[VentaID].productos.push({
                 producto: ProductoNombre,
                 cantidad: CantidadProducto,
                 precioUnitario: Costo,

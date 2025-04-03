@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { IoCloudDownload } from "react-icons/io5";
 import { ReporteContext } from "../../context/ReportsContext";
+import DownloadGeneralReport from "../../functions/downloadExcel";
 
 
 const GeneralReports = () => {
@@ -29,12 +30,25 @@ const GeneralReports = () => {
     const [countCotizaciones, setCountCotizaciones] = useState(0);
     const [countTotalCotizaciones, setCountTotalCotizaciones] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
+    const [comision, setComision] = useState();
 
-    console.log("Información: ", informacion?.infoCotizaciones);
-    //console.log("Cliente del contexto:", clienteContext)
-    //console.log("Este es el cliente:", folio);
 
-    
+    useEffect (() =>{
+        const data  = {
+            startDate : startedDate,
+            endDate : endDate,
+            cliente : selectedClient?.Nombre,
+            ventasCount : countVentas,
+            cotizacionesCount : countCotizaciones,
+            cantVantas : countTotalVentas,
+            cantCotizaciones : countTotalCotizaciones, 
+            comision : comision
+        }
+        setData(data);
+
+    }, [startedDate, endDate, selectedClient, countVentas, countCotizaciones, countTotalVentas, countTotalCotizaciones, comision])
+
 
     useEffect (() => {  
         setFolio(selectedClient?.Folio)
@@ -172,6 +186,35 @@ const GeneralReports = () => {
     }, [startedDate, endDate, folio] );
 
 
+    useEffect (() => {  
+        const fetchData = async () => {   
+            try {
+                const token = localStorage.getItem('token');
+                
+                const response = await fetch (`http://localhost:3000/comisiones/calcular?fechaInicio=${startedDate}&fechaFin=${endDate}`, {
+                    method : 'GET',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setComision(data[0].Comision);
+                } else {
+                    const errorText = await response.text(); 
+                    console.error("Error:", response.status, errorText);
+                }
+
+            } catch (err){
+                console.error("Error: ", err)
+            }
+        }
+        fetchData();
+    }, [startedDate, endDate] );
+
+
    
     const handleClientChange = (e) => {
         const selectedName = e.target.value;
@@ -253,7 +296,7 @@ const GeneralReports = () => {
                     </div>
                     <div className="w-full h-[30%] flex items-end">
                         <p className="font-bold h-[20%] text-text dark:text-dark-text text-[28px] mb-10 mr-48">Comisión</p>
-                        <input className="w-[30%] h-[60%] rounded-3xl text-center mb-4 text-text dark:text-dark-text font-semibold text-[20px] border-black border-[1px] focus:outline-none" type="number" readOnly />
+                        <input className="w-[30%] h-[60%] rounded-3xl text-center mb-4 text-text dark:text-dark-text font-semibold text-[20px] border-black border-[1px] focus:outline-none" type="number" readOnly value={comision} />
                     </div>
                 </div>
                 
@@ -282,9 +325,10 @@ const GeneralReports = () => {
 
             {/* BOTÓN */}
             <div className="w-full h-[8%] flex items-end justify-end p-4 px-20">
-                <button className="h-[95%] w-[12%] rounded-3xl bg-header p-2">
-                    <IoCloudDownload className="h-full w-full"/>
-                </button>
+                <div className="h-[90%] w-[10%]">
+                    <DownloadGeneralReport  data={data}/>
+                </div>
+
             </div>
 
             {loading && (

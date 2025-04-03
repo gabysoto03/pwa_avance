@@ -14,7 +14,7 @@ const ReportesPage = () => {
     }
 
     return (
-        <div className="w-screen h-[200vh] flex-col justify-center py-3">
+        <div className="w-screen h-[200vh] flex-col justify-center py-3 dark:bg-dark-body">
             <div className="w-full h-[10%] flex">
                 <p className="w-[90%] h-full flex items-center justify-center text-[60px] text-text dark:text-dark-text font-bold  pl-32">
                     Reportes
