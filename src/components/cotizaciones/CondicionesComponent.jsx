@@ -6,6 +6,7 @@ import { CotizacionContext } from "../../context/CotizacionContext";
 import { jsPDF } from 'jspdf'
 import HeaderPhoto from "../../assets/icons/template/header.png";
 import FooterPhoto from "../../assets/icons/template/footer.png";
+import axios from "axios";
 
 function CondicionesComponent () {
     const {
@@ -34,6 +35,7 @@ function CondicionesComponent () {
     const [allCondiseraciones, setAllConsideraciones] = useState([]);
     const fecha = new Date();
     const fechaActual = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const [idVen, setIdVen] = useState('');
 
     const [condicionesDefecto, setCondicionesDefecto] = useState([
         "AL RECIBIR ORDEN DE COMPRA O PAGO REFERENTE A ESTA COTIZACIÓN SE HACEN APLICABLES TODAS LAS CONSIDERACIONES MENCIONADAS",
@@ -84,14 +86,66 @@ function CondicionesComponent () {
             setConsideracionesDefectoContext(condicionesDefecto);
         }
     }, [condiciones, condicionesDefecto, consideracionContext, consideracionDefectoContext]);
+
+
+        useEffect (() => {  
+            const fetchData = async () => {   
+            try {
+                const token = localStorage.getItem('token');
+                
+                const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
+                    method : 'GET',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    setIdVen(data.RFC);
+                } else {
+                    const errorText = await response.text(); 
+                    console.error("Error:", response.status, errorText);
+                }
+    
+            } catch (err){
+                console.error("Error: ", err)
+            }
+        }
+        fetchData();
+        }, [] )
     
     
     useEffect(() => {
         const listas = [...consideracionContext, ...consideracionDefectoContext]
         setAllConsideraciones(listas);
-    }, [consideracionContext, consideracionDefectoContext])
+    }, [consideracionContext, consideracionDefectoContext]);
 
-    const generatePDF = () => {
+
+    const uploadPDFToCloudinary = async (pdfBlob, rfcCliente) => {
+        const formData = new FormData();
+        formData.append("file", pdfBlob);
+        formData.append('upload_preset', 'siaumex-ventas'); 
+        formData.append("folder", `siaumex-ventas/ventas/${rfcCliente}`); 
+    
+        try {
+            const response = await fetch("https://api.cloudinary.com/v1_1/dmvvrvjko/image/upload", {
+                method: "POST",
+                body: formData
+            });
+    
+            const data = await response.json();
+            console.log("URL del PDF en Cloudinary:", data.secure_url);
+            return data.secure_url; 
+        } catch (error) {
+            console.error("Error al subir el PDF a Cloudinary:", error);
+        }
+    };
+
+    
+
+    const generatePDF = async () => {
         const doc = new jsPDF();
       
         const addHeaderFooter = () => {
@@ -231,8 +285,15 @@ function CondicionesComponent () {
                 c = 50;
             }
         });
+
+
+        const pdfBlob = new Blob([doc.output("blob")], { type: "application/pdf" });
+        const pdfUrl = await uploadPDFToCloudinary(pdfBlob, idVen);
+
+        if (pdfUrl) {
+            alert(`PDF subido correctamente: ${pdfUrl}`);
+        }
     
-        doc.save("cotizacion.pdf");
     };
 
     const guardarCotizacion = async () => {

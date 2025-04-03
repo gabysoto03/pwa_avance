@@ -13,6 +13,7 @@ import ClientePage from './pages/ClientesPage';
 import ReportesPage from './pages/ReportesPage';
 import Login from './pages/Login';
 import HomePage from './pages/Home';
+import MisCotizaciones from './pages/MisCotizaciones';
 import CambiarPassword from './pages/CambiarPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import { CotizacionProvider } from './context/CotizacionContext';
@@ -64,6 +65,7 @@ function App() {
                                 <Route path="/clientes" element={<ClientePage />} />
                                 <Route path="/reportes" element={<ReportesPage />} />
                                 <Route path="/cambiarPassword" element={<CambiarPassword />} />
+                                <Route path="/misCotizaciones" element={<MisCotizaciones />} />
                             </Route>
                         </Routes>
                     </Layout>

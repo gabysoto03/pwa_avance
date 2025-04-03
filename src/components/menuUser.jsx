@@ -26,13 +26,17 @@ function MenuUser({ onClose }) {
     }
 
     return (
-        <div ref={menuRef} className="absolute right-0 w-64 h-32 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas border-header border-[4px] rounded-3xl shadow-lg py-2 z-20 mt-6 mr-10 flex-col items-center justify-center" >
+        <div ref={menuRef} className="absolute right-0 w-72 h-44 bg-fondo_tarjetas dark:bg-dark-fondo_tarjetas border-header border-[4px] rounded-3xl shadow-lg py-2 z-20 mt-6 mr-10 flex-col items-center justify-center" >
 
-            <button onClick={() => navigate("/cambiarPassword")} className="h-[50%] w-full font-bold text-text dark:text-dark-text text-[16px] border-b-header border-b-[4px]">
+            <button onClick={() => navigate("/cambiarPassword")} className="h-[33%] w-full font-bold text-text dark:text-dark-text text-[16px] border-b-header border-b-[4px]">
                 Cambiar contraseña
             </button>
 
-            <button onClick={handleLogout}  className="h-[50%] w-full font-bold text-text dark:text-dark-text text-[16px]">
+            <button onClick={() => navigate("/misCotizaciones")} className="h-[33%] w-full font-bold text-text dark:text-dark-text text-[16px] border-b-header border-b-[4px]">
+                Ver mis cotizaciones
+            </button>
+
+            <button onClick={handleLogout}  className="h-[34%] w-full font-bold text-text dark:text-dark-text text-[16px]">
                 Cerrar sesión
             </button>
       

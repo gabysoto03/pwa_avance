@@ -4,6 +4,8 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import CotizacionConfirm from "../../assets/icons/cotizacionConfirm.svg"
 import { CotizacionContext } from "../../context/CotizacionContext";
+import ImageUpload from "../FileInput";
+import axios from 'axios';
 
 
 function CotizacionComponent () {
@@ -29,6 +31,9 @@ function CotizacionComponent () {
     const [imagenReg, setImagenReg] = useState('');
     const [categoriaReg, setCategoriaReg] = useState('');
     const [modalAgregar, setModalAgregar] = useState(false);
+    const [image, setImage] = useState(null); 
+    const [uploading, setUploading] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
 
     const {
         productosContext,
@@ -36,6 +41,50 @@ function CotizacionComponent () {
         clientesContext,
         setClientesContext
     } = useContext(CotizacionContext);
+    
+    
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            setImage(file); 
+        } else {
+            alert('Por favor selecciona una imagen');
+            setImage(null);
+        }
+    };
+
+
+    const handleImageUpload = async () => {
+        if (!image) {
+          alert('Por favor selecciona una imagen antes de subir');
+          return;
+        }
+    
+        setUploading(true); 
+    
+        const formData = new FormData();
+        formData.append('file', image); 
+        formData.append('upload_preset', 'siaumex-ventas'); 
+        formData.append('cloud_name', 'dmvvrvjko'); 
+        formData.append("folder", `siaumex-ventas/productos`); 
+    
+        try {
+          const res = await axios.post(
+            `https://api.cloudinary.com/v1_1/dmvvrvjko/image/upload`,
+            formData
+          );
+    
+          setUploading(false);
+          setImageUrl(res.data.secure_url); 
+    
+          console.log('Imagen subida con éxito: ', res.data.secure_url);
+    
+        } catch (err) {
+          setUploading(false);
+          console.error('Error al subir la imagen: ', err);
+          alert('Error al subir la imagen');
+        }
+      };
 
 
     useEffect (() => {  
@@ -157,8 +206,11 @@ function CotizacionComponent () {
     const handleAgregarProducto = async (e) => {
         e.preventDefault();
 
+        handleImageUpload();
+
         try {
             const token = localStorage.getItem('token');
+            console.log("Esta es la URL", imageUrl);
             const response = await fetch( `http://localhost:3000/productos/agregar`, {
                     method : 'POST',
                     headers: {
@@ -172,7 +224,7 @@ function CotizacionComponent () {
                         descripcion: "null",
                         costo: costoReg,
                         entrega: tiempoEntregaReg,
-                        imagen: "null",
+                        imagen: imageUrl,
                         categoria: categoriaReg,
                         clienteID: "82"
                     }),
@@ -523,11 +575,10 @@ function CotizacionComponent () {
 
                         <section className="w-[80%] h-[10vh] mb-5">
                             <p className="text-text dark:text-dark-text text-[16px] font-bold mb-1">Imagen</p>
-                            <input  
-                                defaultValue = { productoEncontrado?.[0]?.Costo || '' } 
-                                className="w-full h-[50%] rounded-full bg-inputs text-text dark:text-dark-text outline-none px-5" 
-                                type="number" 
-                                onChange={(e) => setCostoReg(e.target.value)}
+                            <input 
+                                type="file" 
+                                accept="image/*" // Permite solo imágenes
+                                onChange={handleImageChange} // Llama la función al cambiar el archivo
                             />
                         </section>
                         
