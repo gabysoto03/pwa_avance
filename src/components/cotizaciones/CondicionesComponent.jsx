@@ -6,6 +6,7 @@ import { CotizacionContext } from "../../context/CotizacionContext";
 import { jsPDF } from 'jspdf'
 import HeaderPhoto from "../../assets/icons/template/header.png";
 import FooterPhoto from "../../assets/icons/template/footer.png";
+import { toast } from "react-toastify";
 
 function CondicionesComponent () {
     const {
@@ -288,10 +289,10 @@ function CondicionesComponent () {
             });
 
             if (response.ok) {
-                alert("Cotización guardada exitosamente")
+                toast.success("Cotización guardada exitosamente")
                 navigate('/home');
             } else {
-                alert("Error al agregar la cotización, por favor, intente nuevamente.")
+                toast.error("Error al agregar la cotización, por favor, intente nuevamente.")
                 navigate('/home');
             }
         } catch (err) {
@@ -334,7 +335,7 @@ function CondicionesComponent () {
         if (pdfUrl) {
             guardarCotizacion(pdfUrl); // Llama a guardarCotizacion con la URL del PDF
         } else {
-            alert("Error al generar la cotización. Inténtalo de nuevo.");
+            toast.error("Error al generar la cotización. Inténtalo de nuevo.");
             console.log("Error")
         }
     };

@@ -18,6 +18,8 @@ import CambiarPassword from './pages/CambiarPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import { CotizacionProvider } from './context/CotizacionContext';
 import { ReporteProvider } from './context/ReportsContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({ children }) => {
     const location = useLocation();
@@ -52,6 +54,7 @@ function App() {
     return (
         <CotizacionProvider>
             <ReporteProvider>
+                <ToastContainer position="top-center" autoClose={2000} theme="light" />
                 <Router>
                     <Layout>
                         <Routes>

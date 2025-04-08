@@ -4,8 +4,8 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import CotizacionConfirm from "../../assets/icons/cotizacionConfirm.svg"
 import { CotizacionContext } from "../../context/CotizacionContext";
-import ImageUpload from "../FileInput";
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 
 function CotizacionComponent () {
@@ -48,7 +48,7 @@ function CotizacionComponent () {
         if (file && file.type.startsWith('image/')) {
             setImage(file); 
         } else {
-            alert('Por favor selecciona una imagen');
+            toast.error('Por favor selecciona una imagen');
             setImage(null);
         }
     };
@@ -56,7 +56,7 @@ function CotizacionComponent () {
 
     const handleImageUpload = async () => {
         if (!image) {
-          alert('Por favor selecciona una imagen antes de subir');
+          toast.error('Por favor selecciona una imagen antes de subir');
           return;
         }
     
@@ -82,7 +82,7 @@ function CotizacionComponent () {
         } catch (err) {
           setUploading(false);
           console.error('Error al subir la imagen: ', err);
-          alert('Error al subir la imagen');
+          toast.error('Error al subir la imagen');
         }
       };
 
@@ -232,11 +232,11 @@ function CotizacionComponent () {
 
                 if (response.ok) {
                     setModalAgregar(false);
-                    alert("Producto agregado correctamente.")
+                    toast.success("Producto agregado correctamente.")
                     console.log("Producto agregado correctamente. ")
                 } else {
                     setModalAgregar(false);
-                    alert("Producto agregado correctamente.")
+                    toast.error("Producto agregado correctamente.")
                     console.log("Ocurrio un error");
                 }
             
