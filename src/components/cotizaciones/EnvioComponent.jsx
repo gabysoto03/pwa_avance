@@ -5,10 +5,7 @@ import { CotizacionContext } from "../../context/CotizacionContext";
 function EnvioComponent () {
 
     const {
-        productosContext,
-        setProductosContext,
         clientesContext,
-        setClientesContext,
         opcionEnvioContext, 
         setOpcionEnvioContext,
         semanasEnvioContext, 

@@ -5,7 +5,7 @@ import Logo from "../assets/icons/logo.png";
 import { IoCloudDownload } from "react-icons/io5";
 
 const DownloadDetailsReport = ({ data }) => {
-    console.log("Info: ", data)
+    //console.log("Info: ", data)
   const generarExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Reporte cotizaciones");
@@ -278,7 +278,7 @@ const DownloadDetailsReport = ({ data }) => {
 
     // Guardar archivo
     const buffer = await workbook.xlsx.writeBuffer();
-    const nombreArchivo = `Reporte General ${data.startDate} al ${data.endDate}.xlsx`;
+    const nombreArchivo = `Reporte Detallado ${data.startDate} al ${data.endDate}.xlsx`;
     saveAs(
       new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
       nombreArchivo

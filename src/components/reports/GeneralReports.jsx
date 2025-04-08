@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { IoCloudDownload } from "react-icons/io5";
 import { ReporteContext } from "../../context/ReportsContext";
 import DownloadGeneralReport from "../../functions/downloadExcel";
 

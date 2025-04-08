@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/icons/logo.svg";
+import PasswordInput from "../components/PasswordInput";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -111,20 +112,17 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="w-full h-[32%] py-2 flex flex-col items-center justify-center">
-                    <p className="text-[20px] text-text dark:text-dark-text font-bold mb-2">Contraseña</p>
-                    <input
-                        className={`w-[90%] h-[40%] rounded-3xl px-10 shadow-sm outline-none text-text dark:text-dark-text ${passwordError ? "bg-fondo_error border-2 border-botones" : "bg-inputs"}`}
-                        type="password"
-                        placeholder="Contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        onFocus={() => {
-                            setPasswordError(false);
-                            setError("");
-                        }}
-                    />
-                </div>
+                <PasswordInput
+                    label="Contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onFocus={() => {
+                        setPasswordError(false);
+                        setError("");
+                    }}
+                    error={passwordError}
+                />
+              
 
                 <div className="w-full h-[36%] py-2 flex flex-col items-center justify-center">
                     <button

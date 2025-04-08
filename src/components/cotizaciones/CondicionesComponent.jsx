@@ -6,27 +6,20 @@ import { CotizacionContext } from "../../context/CotizacionContext";
 import { jsPDF } from 'jspdf'
 import HeaderPhoto from "../../assets/icons/template/header.png";
 import FooterPhoto from "../../assets/icons/template/footer.png";
-import axios from "axios";
 
 function CondicionesComponent () {
     const {
         productosContext,
-        setProductosContext,
         clientesContext,
-        setClientesContext,
         opcionEnvioContext,
-        setOpcionEnvioContext,
         semanasEnvioContext,
-        setSemanasEnvioContext,
         condicionesContext,
-        setCondicionesContext,
         consideracionContext, 
         setConsideracionesContext,
         consideracionDefectoContext, 
         setConsideracionesDefectoContext
     } = useContext(CotizacionContext);
 
-    console.log("Cliente: ", clientesContext);
 
     const navigate = useNavigate();
     const [condiciones, setCondiciones] = useState([]);
@@ -54,29 +47,6 @@ function CondicionesComponent () {
         "EN CASO DE NO PODER REALIZAR LOS SERVICIOS POR CUESTIONES AJENAS A SIAUMex SE CONSIDERA COBRO ADICIONAL POR VIÁTICOS",
     ]);
 
-
-    const productos = [
-        { codigo: '001', categoria: 'Electrodomésticos', producto: 'Refrigerador de última generación con tecnología de enfriamiento rápido y sistema de ahorro de energía que mantiene los alimentos frescos por más tiempo.', precio: 250, cantidad: 2 },
-        { codigo: '002', categoria: 'Electrodomésticos', producto: 'Horno microondas con múltiples funciones de cocción, pantalla táctil y diseño elegante que complementa cualquier cocina moderna.', precio: 120, cantidad: 1 },
-        { codigo: '003', categoria: 'Tecnología', producto: 'Laptop ultradelgada con procesador de última generación, pantalla de alta resolución y batería de larga duración, ideal para profesionales y estudiantes.', precio: 800, cantidad: 3 },
-        { codigo: '004', categoria: 'Muebles', producto: 'Sofá de cuero premium con diseño ergonómico, reposabrazos ajustables y sistema reclinable para una comodidad inigualable en el hogar.', precio: 450, cantidad: 1 },
-        { codigo: '005', categoria: 'Herramientas', producto: 'Taladro inalámbrico con batería de larga duración, múltiples velocidades y diseño ergonómico para un agarre seguro y cómodo.', precio: 90, cantidad: 4 },
-        { codigo: '006', categoria: 'Ropa', producto: 'Chaqueta impermeable resistente al viento y con forro térmico, ideal para climas fríos y actividades al aire libre.', precio: 70, cantidad: 2 },
-        { codigo: '007', categoria: 'Tecnología', producto: 'Smartphone con pantalla de alta definición, cámara de 108MP, almacenamiento de 256GB y procesador de última generación.', precio: 999, cantidad: 2 },
-        { codigo: '008', categoria: 'Juguetes', producto: 'Juego de construcción con más de 500 piezas para estimular la creatividad y el aprendizaje en los niños.', precio: 50, cantidad: 5 },
-        { codigo: '009', categoria: 'Electrodomésticos', producto: 'Aspiradora robot inteligente con detección de obstáculos, control por aplicación móvil y batería de larga duración.', precio: 300, cantidad: 1 },
-        { codigo: '010', categoria: 'Deportes', producto: 'Bicicleta de montaña con suspensión doble, frenos de disco y marco de aluminio ligero para aventuras extremas.', precio: 600, cantidad: 1 },
-        { codigo: '011', categoria: 'Cocina', producto: 'Juego de cuchillos profesionales de acero inoxidable con mango ergonómico y filo de larga duración.', precio: 80, cantidad: 3 },
-        { codigo: '012', categoria: 'Automotriz', producto: 'Cargador portátil para automóvil con carga rápida y múltiples puertos USB.', precio: 40, cantidad: 2 },
-        { codigo: '013', categoria: 'Jardinería', producto: 'Kit de herramientas de jardinería con pala, rastrillo, tijeras de poda y guantes resistentes.', precio: 55, cantidad: 3 },
-        { codigo: '014', categoria: 'Hogar', producto: 'Juego de sábanas de algodón egipcio de 1000 hilos para una experiencia de descanso inigualable.', precio: 150, cantidad: 2 },
-        { codigo: '015', categoria: 'Electrónica', producto: 'Bocina Bluetooth con sonido envolvente, resistencia al agua y batería de 24 horas de duración.', precio: 120, cantidad: 1 },
-        { codigo: '016', categoria: 'Moda', producto: 'Bolso de cuero genuino con compartimentos múltiples y diseño elegante para toda ocasión.', precio: 200, cantidad: 2 },
-        { codigo: '017', categoria: 'Salud', producto: 'Reloj inteligente con monitor de ritmo cardíaco, contador de pasos y conexión a aplicaciones de salud.', precio: 180, cantidad: 1 },
-        { codigo: '018', categoria: 'Tecnología', producto: 'Monitor de 27 pulgadas con resolución 4K, tasa de refresco de 144Hz y tecnología de protección ocular.', precio: 500, cantidad: 2 },
-        { codigo: '019', categoria: 'Hogar', producto: 'Purificador de aire con filtro HEPA y detección automática de calidad del aire.', precio: 250, cantidad: 1 },
-        { codigo: '020', categoria: 'Oficina', producto: 'Silla ergonómica con soporte lumbar ajustable, reposabrazos acolchados y base giratoria de 360 grados.', precio: 320, cantidad: 1 },
-    ];
     
     useEffect(() => {
         if (JSON.stringify(condiciones) !== JSON.stringify(consideracionContext)) {
@@ -291,14 +261,15 @@ function CondicionesComponent () {
         const pdfUrl = await uploadPDFToCloudinary(pdfBlob, idVen);
 
         if (pdfUrl) {
-            alert(`PDF subido correctamente: ${pdfUrl}`);
+            return pdfUrl
         }
     
     };
 
-    const guardarCotizacion = async () => {
+    const guardarCotizacion = async (pdfUrl) => {
         try {
             const token = localStorage.getItem('token');
+            console.log("Este es el pdf que se manda: ", pdfUrl);
             
             const response = await fetch ('http://localhost:3000/cotizaciones/crear', {
                 method : 'POST',
@@ -311,7 +282,8 @@ function CondicionesComponent () {
                     productos: productosContext,
                     entregaDomicilio: opcionEnvioContext === "paqueteria" ? false : true,
                     lugarEntrega : opcionEnvioContext,
-                    tiempoEntrega : semanasEnvioContext
+                    tiempoEntrega : semanasEnvioContext, 
+                    file : pdfUrl
                 }),
             });
 
@@ -357,8 +329,14 @@ function CondicionesComponent () {
 
 
     const handleSubmitCotizacion = async () => {
-        generatePDF();
-        guardarCotizacion();
+        const pdfUrl = await generatePDF(); 
+        console.log("ihufgeywgywoevgy8rfu8 ", pdfUrl);
+        if (pdfUrl) {
+            guardarCotizacion(pdfUrl); // Llama a guardarCotizacion con la URL del PDF
+        } else {
+            alert("Error al generar la cotización. Inténtalo de nuevo.");
+            console.log("Error")
+        }
     };
     
     return (

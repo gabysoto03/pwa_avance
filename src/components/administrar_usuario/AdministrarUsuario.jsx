@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Input from "../formulario_components/Input";
 import Label from "../formulario_components/Label";
 import Section from "../formulario_components/Section";
-import InputFolder from "../formulario_components/InputFolder";
 import { IoSearchSharp } from "react-icons/io5";
 import UserConfirm from "../../assets/icons/clientesConfirm.svg";
 
@@ -459,6 +458,20 @@ const UserAdmin = () => {
                             onFocus={handleFocus}
                         />
                     </div>
+
+                    <div className="flex w-full h-[30%] mb-6">
+                        <Label w="40%" text="Método de envio:"></Label>
+                        <div className="w-full h-full px-16">
+                            <section className="flex w-[50%] mb-10">
+                                <input className="mr-4 scale-150" type="radio" name="envio"   />
+                                <p className="text-text dark:text-dark-text font-bold text-[14px] ">Entrega personal</p>
+                            </section>
+                            <section className="flex w-[50%]">
+                                <input className="mr-4 scale-150" type="radio" name="envio"  />
+                                <p className="text-text dark:text-dark-text font-bold text-[14px]">Correo eléctronico</p>
+                            </section>
+                        </div>
+                    </div>  
                     
                     <div className="w-full h-[30%] flex">
                         <Label w="10%" text="Activo" />
@@ -490,6 +503,8 @@ const UserAdmin = () => {
                             </div>
                         </div>
                     </div>
+
+                    
 
                 </div>
             </div>

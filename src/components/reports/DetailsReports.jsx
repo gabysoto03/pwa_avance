@@ -1,5 +1,4 @@
 import React, {useState, useContext, useEffect} from "react";
-import { IoCloudDownload } from "react-icons/io5";
 import { ReporteContext } from "../../context/ReportsContext";
 import DownloadDetailsReport from "../../functions/downloadDetailsExcel";
 
@@ -44,7 +43,7 @@ const ReportsDetails = () => {
         }
         setData(data);
 
-    }, [startedDate, endDate, selectedClient, informacion])
+    }, [cotizacionesAgrupadas, ventasAgrupadas])
 
     
     useEffect(() => {
@@ -71,10 +70,6 @@ const ReportsDetails = () => {
             }
         }
     }, [informacion]);
-    
-    
-
-    
 
     
 
@@ -105,6 +100,8 @@ const ReportsDetails = () => {
         }
         fetchData();
     }, [] );
+
+
 
     useEffect (() => {  
         const fetchData = async () => {   

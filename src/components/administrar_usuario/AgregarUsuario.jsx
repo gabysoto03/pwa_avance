@@ -12,6 +12,7 @@ const UserAdd = () => {
     const [idVen, setIdVen] = useState('');
     const [formIncomplete, setFormIncomplete] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [envio, setEnvio] = useState('personal')
 
     useEffect (() => {  
         const fetchData = async () => {
@@ -42,6 +43,11 @@ const UserAdd = () => {
     fetchData();
 
     }, [] )
+
+
+    const handleEnvioChange = (e) => {
+        setEnvio(e.target.value);
+      };
 
 
 
@@ -176,7 +182,7 @@ const UserAdd = () => {
                     Direccion: formData.direccion,
                     CP: formData.cp,
                     ModoOscuro: false, 
-                    Envio: 0, 
+                    Envio: envio === 'correo' ? 1 : 0, 
                     Estado : formData.estado,
                     RFCVent: idVen, 
                     CondicionesPago: formData.condiciones 
@@ -362,7 +368,7 @@ const UserAdd = () => {
 
             <Section pWidth="8%" divWidth="92%" text="Envío" />
 
-            <div className="w-full h-[20%] flex">
+            <div className="w-full h-[30%] flex">
 
                 <div className="w-[60%] p-10 ml-28 mt-5 h-full flex flex-col items-center justify-center">
                     <div className="w-full h-[30%] flex">
@@ -370,14 +376,41 @@ const UserAdd = () => {
                         <Input
                             name="condiciones"
                             border_color={(formIncomplete) ? 'red' : 'transparent'}
-                            w="100%"
-                            h="50%"
+                            w="90%"
+                            h="30%"
                             type = "text"
                             value={formData.condiciones}
                             onChange={handleChange}
                             onFocus={handleFocus}
                         />
-                    </div>                    
+                    </div>  
+                    <div className="flex w-full  h-[30%] mb-6">
+                        <Label w="40%" text="Método de envio:"></Label>
+                        <div className="w-full h-full px-16">
+                            <section className="flex w-[50%] mb-10">
+                                <input 
+                                    className="mr-4 scale-150" 
+                                    type="radio" 
+                                    name="envio"
+                                    value='personal'
+                                    checked={envio == 'personal'}  
+                                    onChange={handleEnvioChange}
+                                />
+                                <p className="text-text dark:text-dark-text font-bold text-[14px] ">Entrega personal</p>
+                            </section>
+                            <section className="flex w-[50%]">
+                                <input 
+                                    className="mr-4 scale-150" 
+                                    type="radio"
+                                     name="envio"  
+                                     value='correo'
+                                    checked={envio == 'correo'}  
+                                    onChange={handleEnvioChange}
+                                />
+                                <p className="text-text dark:text-dark-text font-bold text-[14px]">Correo eléctronico</p>
+                            </section>
+                        </div>
+                    </div>                  
                 </div>
             </div>
 
