@@ -26,7 +26,7 @@ const HomePage = () => {
     } = useContext(CotizacionContext);
 
     const token = localStorage.getItem("token");
-    console.log("Token: ", token)
+    //console.log("Token: ", token)
 
     
     // Limpiamos el context para que no tenga datos de otras cotizaciones. 

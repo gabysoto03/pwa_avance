@@ -150,7 +150,7 @@ function CondicionesComponent () {
             });
     
             const data = await response.json();
-            console.log("URL del PDF en Cloudinary:", data.secure_url);
+            //console.log("URL del PDF en Cloudinary:", data.secure_url);
             return data.secure_url; 
         } catch (error) {
             console.error("Error al subir el PDF a Cloudinary:", error);

@@ -77,7 +77,7 @@ function CotizacionComponent () {
           setUploading(false);
           setImageUrl(res.data.secure_url); 
     
-          console.log('Imagen subida con éxito: ', res.data.secure_url);
+          //console.log('Imagen subida con éxito: ', res.data.secure_url);
     
         } catch (err) {
           setUploading(false);
