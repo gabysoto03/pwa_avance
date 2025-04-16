@@ -20,9 +20,7 @@ const UserAdd = () => {
         const fetchData = async () => {
         
         try {
-            const token = localStorage.getItem('token');
-            console.log("Token: ", token);
-            
+            const token = localStorage.getItem('token');            
             const response = await fetch (' http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
                 method : 'GET',
                 headers: { 
@@ -33,7 +31,6 @@ const UserAdd = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log("dataaaaaaaa: ", data);
                 setIdVen(data.RFC);
             } else {
                 const errorText = await response.text(); 

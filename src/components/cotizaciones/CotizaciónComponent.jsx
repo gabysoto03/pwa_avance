@@ -203,10 +203,27 @@ function CotizacionComponent () {
     };
 
 
+    const handleCerrarModal = () => {
+        setModalAgregar(false); 
+        setProductoEncontrado([]);
+        setCodigoReg(null);
+        setNombreReg(null);
+        setTiempoEntregaReg(null);
+        setCategoriaReg(null);
+        setCostoReg(null);
+        setImageUrl(null);
+    };
+
+
     const handleAgregarProducto = async (e) => {
         e.preventDefault();
 
         handleImageUpload();
+
+        if (!codigoReg || !nombreReg || !costoReg || !tiempoEntregaReg || !categoriaReg || !selectedClient?.Folio || !imageUrl) {
+            toast.error("Por favor, completa todos los campos requeridos.");
+            return; 
+        }
 
         try {
             const token = localStorage.getItem('token');
@@ -220,7 +237,7 @@ function CotizacionComponent () {
                 body: JSON.stringify({
                     codigo: codigoReg,
                     nombre: nombreReg,
-                    descripcion: "null",
+                    descripcion: nombreReg,
                     costo: costoReg,
                     entrega: tiempoEntregaReg,
                     imagen: imageUrl,
@@ -241,7 +258,6 @@ function CotizacionComponent () {
             if (response.ok) {
                 setModalAgregar(false);
                 toast.success("Producto agregado correctamente.");
-                console.log("Producto agregado correctamente.");
             } else {
                 setModalAgregar(false);
                 toast.error("Error al agregar producto.");
@@ -251,6 +267,14 @@ function CotizacionComponent () {
         } catch (err) {
             console.error("Error de red o excepción inesperada: ", err);
             toast.error("Ocurrió un error inesperado.");
+        } finally{
+            setCodigoReg(null);
+            setNombreReg(null);
+            setTiempoEntregaReg(null);
+            setCategoriaReg(null);
+            setCostoReg(null);
+            setImageUrl(null);
+            setImage(null);
         }
         
     }
@@ -261,7 +285,6 @@ function CotizacionComponent () {
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
-            console.log("Token: ", token)
             const response = await fetch( `http://siaumex-001-site1.mtempurl.com/buscar-exacto?tabla=Producto&campo=Codigo&informacion=${codigoProducto}&limite=1`, {
                     method : 'GET',
                     headers: {
@@ -444,7 +467,7 @@ function CotizacionComponent () {
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-complemento dark:bg-dark-complemento px-6 py-4 rounded-3xl shadow-lg w-[50%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
-                        <button className="w-full flex justify-end dark:text-white" onClick={() => {setIsModalOpen(false); setProductoEncontrado([])}}>Cerrar</button>
+                        <button className="w-full flex justify-end dark:text-white" onClick={() => {setIsModalOpen(false); setProductoEncontrado([]);}}>Cerrar</button>
                         <h2 className="text-[32px] text-text dark:text-dark-text font-bold mb-4">Agregar Producto</h2>
 
                         <section className="w-[80%] h-[10vh] mb-5">
@@ -547,7 +570,7 @@ function CotizacionComponent () {
             {modalAgregar && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="bg-complemento dark:bg-dark-complemento px-6 py-1 rounded-3xl shadow-lg w-[50%] border-[4px] border-border dark:border-dark-border flex flex-col items-center justify-center ">
-                        <button className="w-full flex justify-end dark:text-white" onClick={() => {setModalAgregar(false); setProductoEncontrado([])}}>Cerrar</button>
+                        <button className="w-full flex justify-end dark:text-white" onClick={handleCerrarModal}>Cerrar</button>
                         <h2 className="text-[32px] text-text dark:text-dark-text font-bold mb-2">¡Uy, no se encontro!</h2>
                         <p className="text-text dark:text-dark-text text-[10px] w-[90%] flex justify-center mb-4">Verifica el código del producto, o en su defecto registralo para agregarlo a la cotización.</p>
 
@@ -603,8 +626,6 @@ function CotizacionComponent () {
                     </div>
                 </div>
             )}
-
-
 
         </div>
     );

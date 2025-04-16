@@ -125,7 +125,6 @@ function MisCotizaciones (){
                 const token = localStorage.getItem('token');
                 
                 if(folio){
-                    console.log("Folio:", folio)
                     const response = await fetch (`http://siaumex-001-site1.mtempurl.com/reportes/obtener-cotizaciones-y-ventas?fechaInicio=${startedDate}&fechaFin=${endDate}&folioCliente=${folio}`, {
                         method : 'GET',
                         headers: { 
@@ -137,7 +136,6 @@ function MisCotizaciones (){
                     if (response.ok) {
                         const data = await response.json();
                         setInformacion(data);
-                        console.log("Infoooo: ", data);
                     } else {
                         const errorText = await response.text(); 
                         console.error("Error:", response.status, errorText);

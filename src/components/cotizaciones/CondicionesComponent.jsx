@@ -21,6 +21,7 @@ function CondicionesComponent () {
         setConsideracionesDefectoContext
     } = useContext(CotizacionContext);
 
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [condiciones, setCondiciones] = useState([]);
     const [nuevoCondicion, setNuevoCondicion] = useState("");
@@ -110,7 +111,6 @@ function CondicionesComponent () {
         const obtenerFolio = async () => {
           try {
             const token = localStorage.getItem('token');
-            console.log("Clienteeeee: ", clientesContext.Folio);
             const response = await fetch (`http://siaumex-001-site1.mtempurl.com/cotizaciones/proximoFolio/${clientesContext.Folio}`, {
                 method : 'GET',
                 headers: { 
@@ -309,11 +309,11 @@ function CondicionesComponent () {
     };
 
     const guardarCotizacion = async (pdfUrl) => {
+      
         try {
             const token = localStorage.getItem('token');
-            console.log("Este es el pdf que se manda: ", pdfUrl);
             
-            const response = await fetch ('http://localhost:3000/cotizaciones/crear', {
+            const response = await fetch ('http://siaumex-001-site1.mtempurl.com/cotizaciones/crear', {
                 method : 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -338,7 +338,9 @@ function CondicionesComponent () {
             }
         } catch (err) {
             console.error("ERROR:", err)
-        } 
+        } finally {
+            setLoading(false);
+        }
     }
     
 
@@ -371,13 +373,12 @@ function CondicionesComponent () {
 
 
     const handleSubmitCotizacion = async () => {
+        setLoading(true)
         const pdfUrl = await generatePDF(); 
-        console.log("ihufgeywgywoevgy8rfu8 ", pdfUrl);
         if (pdfUrl) {
             guardarCotizacion(pdfUrl); // Llama a guardarCotizacion con la URL del PDF
         } else {
             toast.error("Error al generar la cotización. Inténtalo de nuevo.");
-            console.log("Error")
         }
     };
     
@@ -472,6 +473,18 @@ function CondicionesComponent () {
                     </div>
                 </div>
             )}
+
+
+       
+            {loading && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-xl flex flex-col items-center shadow-lg">
+                        <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p className="mt-3 text-gray-700 font-semibold">Creando cotización</p>
+                    </div>
+                </div>
+            )}                    
+             
 
         </div>
     )
