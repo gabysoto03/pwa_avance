@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { CotizacionContext } from "../../context/CotizacionContext";
 import CotizacionConfirm from "../../assets/icons/cotizacionConfirm.svg"
@@ -25,6 +25,12 @@ function PagoComponent () {
     const handleCondicionesChange = (e) => {
         setCondicionesUser(e.target.value); 
     };
+
+    useEffect(() => {
+        if (productosContext.length === 0){
+            navigate('/home')
+        }
+    })
 
     const handleSiguienteClick = () => {
         if (condicionesUser != ''){

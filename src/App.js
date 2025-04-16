@@ -19,6 +19,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { CotizacionProvider } from './context/CotizacionContext';
 import { ReporteProvider } from './context/ReportsContext';
 import { ToastContainer } from 'react-toastify';
+import BeforeUnloadAlert from './components/BeforeUnloadAlert';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({ children }) => {
@@ -56,6 +57,7 @@ function App() {
             <ReporteProvider>
                 <ToastContainer position="top-center" autoClose={2000} theme="light" />
                 <Router>
+                    <BeforeUnloadAlert /> 
                     <Layout>
                         <Routes>
                             <Route path="/" element={<Login />} />

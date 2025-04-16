@@ -3,6 +3,7 @@ import CotizacionIcon from "../../src/assets/icons/cotizacionIcon.svg"
 import StatusBar from "../components/cotizaciones/StatusBar";
 import CondicionesComponent from "../components/cotizaciones/CondicionesComponent";
 
+
 function CondicionesPage () {
 
     return (

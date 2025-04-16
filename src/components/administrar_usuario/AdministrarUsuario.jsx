@@ -63,7 +63,7 @@ const UserAdmin = () => {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
+            const response = await fetch ('http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
                 method : 'GET',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const UserAdmin = () => {
       try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch(`http://localhost:3000/clientes/editar/${folio}`, {
+            const response = await fetch(`http://siaumex-001-site1.mtempurl.com/clientes/editar/${folio}`, {
                 method : 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -201,7 +201,7 @@ const UserAdmin = () => {
             });
 
 
-            const responseValidar = await fetch(`http://localhost:3000/clientes/eliminar/${folio}`, {
+            const responseValidar = await fetch(`http://siaumex-001-site1.mtempurl.com/clientes/eliminar/${folio}`, {
                 method : 'PUT',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -247,7 +247,7 @@ const UserAdmin = () => {
         try {
             const token = localStorage.getItem('token');
             const response = await fetch(
-                `http://localhost:3000/buscar-exacto?tabla=Cliente&campo=RFCClie&informacion=${formData.rfc}&limite=1`, 
+                `http://siaumex-001-site1.mtempurl.com/buscar-exacto?tabla=Cliente&campo=RFCClie&informacion=${formData.rfc}&limite=1`, 
                 {
                     method : 'GET',
                     headers: {

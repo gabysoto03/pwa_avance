@@ -13,14 +13,17 @@ const UserAdd = () => {
     const [formIncomplete, setFormIncomplete] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [envio, setEnvio] = useState('personal')
+    const token = localStorage.getItem('token');
+
 
     useEffect (() => {  
         const fetchData = async () => {
         
         try {
             const token = localStorage.getItem('token');
+            console.log("Token: ", token);
             
-            const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
+            const response = await fetch (' http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
                 method : 'GET',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -30,6 +33,7 @@ const UserAdd = () => {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log("dataaaaaaaa: ", data);
                 setIdVen(data.RFC);
             } else {
                 const errorText = await response.text(); 
@@ -42,7 +46,7 @@ const UserAdd = () => {
     }
     fetchData();
 
-    }, [] )
+    }, [token] )
 
 
     const handleEnvioChange = (e) => {
@@ -166,7 +170,7 @@ const UserAdd = () => {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch ('http://localhost:3000/clientes/alta', {
+            const response = await fetch ('http://siaumex-001-site1.mtempurl.com/clientes/alta', {
                 method : 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -185,7 +189,8 @@ const UserAdd = () => {
                     Envio: envio === 'correo' ? 1 : 0, 
                     Estado : formData.estado,
                     RFCVent: idVen, 
-                    CondicionesPago: formData.condiciones 
+                    CondicionesPago: formData.condiciones,
+                    VendedorID : idVen 
                 }),
             });
 

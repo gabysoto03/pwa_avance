@@ -39,7 +39,7 @@ const CambiarPassword = () => {
             try {
                 const token = localStorage.getItem('token');
 
-                const response = await fetch ('http://localhost:3000/usuario/newPass', {
+                const response = await fetch ('http://siaumex-001-site1.mtempurl.com/usuario/newPass', {
                     method : 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const CambiarPassword = () => {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
+            const response = await fetch ('http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
                 method : 'GET',
                 headers: { 
                     'Content-Type': 'application/json',

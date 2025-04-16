@@ -105,7 +105,7 @@ function CotizacionComponent () {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
+            const response = await fetch ('http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
                 method : 'GET',
                 headers: { 
                     'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ function CotizacionComponent () {
                 const token = localStorage.getItem('token');
                 
                 if(idVen){
-                    const response = await fetch (`http://localhost:3000/clientes/buscar-clientes-vendedor?campo=RFCVent&informacion=${idVen}`, {
+                    const response = await fetch (`http://siaumex-001-site1.mtempurl.com/clientes/buscar-clientes-vendedor?campo=RFCVent&informacion=${idVen}`, {
                         method : 'GET',
                         headers: { 
                             'Content-Type': 'application/json',
@@ -210,39 +210,49 @@ function CotizacionComponent () {
 
         try {
             const token = localStorage.getItem('token');
-            console.log("Esta es la URL", imageUrl);
-            const response = await fetch( `http://localhost:3000/productos/agregar`, {
-                    method : 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    },
-                    
-                    body : JSON.stringify({
-                        codigo: codigoReg,
-                        nombre: nombreReg,
-                        descripcion: "null",
-                        costo: costoReg,
-                        entrega: tiempoEntregaReg,
-                        imagen: imageUrl,
-                        categoria: categoriaReg,
-                        clienteID: "82"
-                    }),
-                });
-
-                if (response.ok) {
-                    setModalAgregar(false);
-                    toast.success("Producto agregado correctamente.")
-                    console.log("Producto agregado correctamente. ")
-                } else {
-                    setModalAgregar(false);
-                    toast.error("Producto agregado correctamente.")
-                    console.log("Ocurrio un error");
-                }
-            
+        
+            const response = await fetch(`http://siaumex-001-site1.mtempurl.com/productos/agregarProd`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    codigo: codigoReg,
+                    nombre: nombreReg,
+                    descripcion: "null",
+                    costo: costoReg,
+                    entrega: tiempoEntregaReg,
+                    imagen: imageUrl,
+                    categoria: categoriaReg,
+                    clienteID: selectedClient.Folio
+                }),
+            });
+        
+            let resultText = await response.text(); 
+            let result;
+        
+            try {
+                result = JSON.parse(resultText); 
+            } catch (e) {
+                result = { message: resultText }; 
+            }
+        
+            if (response.ok) {
+                setModalAgregar(false);
+                toast.success("Producto agregado correctamente.");
+                console.log("Producto agregado correctamente.");
+            } else {
+                setModalAgregar(false);
+                toast.error("Error al agregar producto.");
+                console.error("Error en la respuesta del servidor:", result.message || result);
+            }
+        
         } catch (err) {
-            console.error("Error: ", err)
-        } 
+            console.error("Error de red o excepción inesperada: ", err);
+            toast.error("Ocurrió un error inesperado.");
+        }
+        
     }
 
 
@@ -252,7 +262,7 @@ function CotizacionComponent () {
         try {
             const token = localStorage.getItem('token');
             console.log("Token: ", token)
-            const response = await fetch( `http://localhost:3000/buscar-exacto?tabla=Producto&campo=Codigo&informacion=${codigoProducto}&limite=1`, {
+            const response = await fetch( `http://siaumex-001-site1.mtempurl.com/buscar-exacto?tabla=Producto&campo=Codigo&informacion=${codigoProducto}&limite=1`, {
                     method : 'GET',
                     headers: {
                         "Content-Type": "application/json",

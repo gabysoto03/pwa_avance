@@ -5,6 +5,7 @@ import { CotizacionContext } from "../../context/CotizacionContext";
 function EnvioComponent () {
 
     const {
+        productosContext,
         clientesContext,
         opcionEnvioContext, 
         setOpcionEnvioContext,
@@ -17,6 +18,12 @@ function EnvioComponent () {
     const [envio, setEnvio] = useState();
     const [semanas, setSemanas] = useState(semanasEnvioContext);
 
+
+    useEffect(() => {
+        if (productosContext.length === 0){
+            navigate('/')
+        }
+    })
 
     useEffect(() => {
         setEnvio(opcionEnvioContext)

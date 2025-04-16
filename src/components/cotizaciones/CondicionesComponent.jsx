@@ -21,7 +21,6 @@ function CondicionesComponent () {
         setConsideracionesDefectoContext
     } = useContext(CotizacionContext);
 
-
     const navigate = useNavigate();
     const [condiciones, setCondiciones] = useState([]);
     const [nuevoCondicion, setNuevoCondicion] = useState("");
@@ -29,7 +28,13 @@ function CondicionesComponent () {
     const [allCondiseraciones, setAllConsideraciones] = useState([]);
     const fecha = new Date();
     const fechaActual = fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const partes = fechaActual.split("/");  // Dividimos la fecha en día, mes y año
+    const fechaObj = new Date(partes[2], partes[1] - 1, partes[0]);  // Formato Date (año, mes, día)
+    fechaObj.setDate(fechaObj.getDate() + 15);
+    const fechaVigencia = fechaObj.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const [folioCoti, setFolioCoti] = useState();
     const [idVen, setIdVen] = useState('');
+
 
     const [condicionesDefecto, setCondicionesDefecto] = useState([
         "AL RECIBIR ORDEN DE COMPRA O PAGO REFERENTE A ESTA COTIZACIÓN SE HACEN APLICABLES TODAS LAS CONSIDERACIONES MENCIONADAS",
@@ -50,6 +55,12 @@ function CondicionesComponent () {
 
     
     useEffect(() => {
+        if (productosContext.length === 0){
+            navigate('/')
+        }
+    })
+
+    useEffect(() => {
         if (JSON.stringify(condiciones) !== JSON.stringify(consideracionContext)) {
             setConsideracionesContext(condiciones);
         }
@@ -59,39 +70,71 @@ function CondicionesComponent () {
     }, [condiciones, condicionesDefecto, consideracionContext, consideracionDefectoContext]);
 
 
-        useEffect (() => {  
-            const fetchData = async () => {   
-            try {
-                const token = localStorage.getItem('token');
-                
-                const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
-                    method : 'GET',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-    
-                if (response.ok) {
-                    const data = await response.json();
-                    setIdVen(data.RFC);
-                } else {
-                    const errorText = await response.text(); 
-                    console.error("Error:", response.status, errorText);
+    useEffect (() => {  
+        const fetchData = async () => {   
+        try {
+            const token = localStorage.getItem('token');
+            
+            const response = await fetch ('http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
+                method : 'GET',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
-    
-            } catch (err){
-                console.error("Error: ", err)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setIdVen(data.RFC);
+            } else {
+                const errorText = await response.text(); 
+                console.error("Error:", response.status, errorText);
             }
+
+        } catch (err){
+            console.error("Error: ", err)
         }
-        fetchData();
-        }, [] )
+    }
+    fetchData();
+    }, [] )
     
     
     useEffect(() => {
         const listas = [...consideracionContext, ...consideracionDefectoContext]
         setAllConsideraciones(listas);
     }, [consideracionContext, consideracionDefectoContext]);
+
+
+
+    useEffect(() => {
+        const obtenerFolio = async () => {
+          try {
+            const token = localStorage.getItem('token');
+            console.log("Clienteeeee: ", clientesContext.Folio);
+            const response = await fetch (`http://siaumex-001-site1.mtempurl.com/cotizaciones/proximoFolio/${clientesContext.Folio}`, {
+                method : 'GET',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });   
+    
+            if (response.ok) {
+                const data = await response.json();
+                setFolioCoti(data.folio);
+            } else {
+                const errorText = await response.text(); 
+                console.error("Error:", response.status, errorText);
+            }
+            
+          } catch (error) {
+            console.error('Error al obtener el folio:', error);
+          }
+        };
+        obtenerFolio();
+    }, [clientesContext]);
+
+
 
 
     const uploadPDFToCloudinary = async (pdfBlob, rfcCliente) => {
@@ -141,16 +184,14 @@ function CondicionesComponent () {
         doc.text('COTIZACIÓN', 140, 58); 
         doc.text('FECHA', 130, 63);
         doc.text('FOLIO', 130, 68);
-        doc.text('PROVEEDOR', 130, 73);
-        doc.text('VIGENCIA', 130, 77);
-        doc.text('CLIENTE', 130, 82);
+        doc.text('VIGENCIA', 130, 73);
+        doc.text('CLIENTE', 130, 77);
          
         doc.setFont("arial", "normal"); 
         doc.text(`${fechaActual}`, 160, 63);
-        doc.text('folio-tem', 160, 68);
-        doc.text('prov-tem', 160, 73);
-        doc.text('vig', 160, 77);
-        doc.text(`${clientesContext?.Nombre}`, 160, 82);
+        doc.text(`${folioCoti}`, 160, 68);
+        doc.text(`${fechaVigencia}`, 160, 73);
+        doc.text(`${clientesContext?.Nombre}`, 160, 77);
 
         doc.setFont("arial", "italic"); 
         doc.text('RAZÓN SOCIAL', 15, 100);
@@ -161,7 +202,7 @@ function CondicionesComponent () {
         doc.text('CP', 150, 110);
 
         doc.setFont("arial", "nomal"); 
-        doc.text('no se', 50, 100);
+        doc.text(`${clientesContext?.Nombre}`, 50, 100);
         doc.text(`${clientesContext?.RFCClie}`, 50, 105);
         doc.text(`${clientesContext?.Direccion}`, 50, 110);
         doc.text(`${clientesContext?.Correo}`, 50, 115);

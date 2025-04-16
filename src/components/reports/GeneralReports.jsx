@@ -60,7 +60,7 @@ const GeneralReports = () => {
             try {
                 const token = localStorage.getItem('token');
                 
-                const response = await fetch ('http://localhost:3000/clientes/rfc-vendedor', {
+                const response = await fetch ('http://siaumex-001-site1.mtempurl.com/clientes/rfc-vendedor', {
                     method : 'GET',
                     headers: { 
                         'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const GeneralReports = () => {
                 const token = localStorage.getItem('token');
                 
                 if(idVen){
-                    const response = await fetch (`http://localhost:3000/clientes/buscar-clientes-vendedor?campo=RFCVent&informacion=${idVen}`, {
+                    const response = await fetch (`http://siaumex-001-site1.mtempurl.com/clientes/buscar-clientes-vendedor?campo=RFCVent&informacion=${idVen}`, {
                         method : 'GET',
                         headers: { 
                             'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const GeneralReports = () => {
                 const token = localStorage.getItem('token');
                 
                 if(folio){
-                    const response = await fetch (`http://localhost:3000/reportes/obtener-cotizaciones-y-ventas?fechaInicio=${startedDate}&fechaFin=${endDate}&folioCliente=${folio}`, {
+                    const response = await fetch (`http://siaumex-001-site1.mtempurl.com/reportes/obtener-cotizaciones-y-ventas?fechaInicio=${startedDate}&fechaFin=${endDate}&folioCliente=${folio}`, {
                         method : 'GET',
                         headers: { 
                             'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ const GeneralReports = () => {
                         console.error("Error:", response.status, errorText);
                     }
                 } else {
-                    const response = await fetch (`http://localhost:3000/reportes/obtener-cotizaciones-y-ventas?fechaInicio=${startedDate}&fechaFin=${endDate}`, {
+                    const response = await fetch (`http://siaumex-001-site1.mtempurl.com/reportes/obtener-cotizaciones-y-ventas?fechaInicio=${startedDate}&fechaFin=${endDate}`, {
                         method : 'GET',
                         headers: { 
                             'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ const GeneralReports = () => {
             try {
                 const token = localStorage.getItem('token');
                 
-                const response = await fetch (`http://localhost:3000/comisiones/calcular?fechaInicio=${startedDate}&fechaFin=${endDate}`, {
+                const response = await fetch (`http://siaumex-001-site1.mtempurl.com/comisiones/calcular?fechaInicio=${startedDate}&fechaFin=${endDate}`, {
                     method : 'GET',
                     headers: { 
                         'Content-Type': 'application/json',

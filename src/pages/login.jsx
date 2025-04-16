@@ -50,14 +50,14 @@ const Login = () => {
         setIsLoading(true); 
 
         try {
-            const response = await fetch("http://localhost:3000/usuario/login", {
+            const response = await fetch("http://siaumex-001-site1.mtempurl.com/usuario/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json",},
                 
                 body: JSON.stringify({
                     correo: email,
                     contraseña: password,
-                    tipo: "Vendedor",
+                    tipo: "vendedor",
                 }),
             });
 
