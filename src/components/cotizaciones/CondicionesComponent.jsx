@@ -346,7 +346,7 @@ function CondicionesComponent () {
 
 
     useEffect(() => {
-        if(consideracionContext.length > 0  || consideracionDefectoContext.length > 0){
+        if(consideracionContext.length > 0  || consideracionDefectoContext.length > 0){ 
             setCondiciones(consideracionContext);
             setCondicionesDefecto(consideracionDefectoContext)
         }

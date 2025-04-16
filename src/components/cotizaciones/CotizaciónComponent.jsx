@@ -220,7 +220,7 @@ function CotizacionComponent () {
 
         handleImageUpload();
 
-        if (!codigoReg || !nombreReg || !costoReg || !tiempoEntregaReg || !categoriaReg || !selectedClient?.Folio || !imageUrl) {
+        if (!codigoReg || !nombreReg || !costoReg || !tiempoEntregaReg || !categoriaReg || !selectedClient?.Folio) {
             toast.error("Por favor, completa todos los campos requeridos.");
             return; 
         }

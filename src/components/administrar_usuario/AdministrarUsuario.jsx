@@ -278,7 +278,7 @@ const UserAdmin = () => {
     }
 
     return (
-        <div className="w-full h-full dark:text-white">
+        <div className="w-full h-full">
             
             <Section pWidth="15%" divWidth="85%" text="Datos personales" />
             <div className="flex flex-col w-full h-[15%] justify-center items-center">
